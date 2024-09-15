@@ -1,17 +1,37 @@
 {
-  "name": "server",
+  "name": "log-pipe-server",
   "packageManager": "yarn@3.6.4",
   "type": "module",
   "scripts": {
-    "compile": "tsc",
-    "start": "npm run compile && node ./dist/index.js"
-  }
+    "codegen": "graphql-codegen",
+    "build": " npm run codegen && esbuild src/lambda.ts --bundle --platform=node --target=node14 --outdir=dist",
+    "start": "serverless offline",
+    "deploy": "serverless deploy"
+  },
   "dependencies": {
     "@apollo/server": "^4.11.0",
-    "graphql": "^16.9.0"
+    "@apollo/subgraph": "^2.9.0",
+    "@as-integrations/aws-lambda": "^3.1.0",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@luckycatfactory/esbuild-graphql-loader": "^3.8.1",
+    "@types/jsonwebtoken": "^9.0.6",
+    "apollo-server-lambda": "^3.13.0",
+    "aws-sdk": "^2.1691.0",
+    "graphql": "^16.9.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.6.2"
   },
   "devDependencies": {
-    "@types/node": "^22.5.5",
-    "typescript": "^5.6.2"
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typescript": "^4.0.0",
+    "@graphql-codegen/typescript-resolvers": "^4.0.0",
+    "@types/cors": "^2.8.17",
+    "@types/debug": "^4.1.12",
+    "@types/jest": "^29.0.3",
+    "@types/node": "22.0.0",
+    "esbuild": "^0.23.1",
+    "nodemon": "^3.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0"
   }
 }

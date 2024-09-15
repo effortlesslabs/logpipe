@@ -1,0 +1,37 @@
+org: fnlog0
+app: test
+service: log-pipe-server
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    MONGO_DB_URI: ${env:MONGO_DB_URI}
+
+functions:
+  graphql:
+    handler: src/lambda.graphqlHandler
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors: true
+      - http:
+          path: graphql
+          method: get
+          cors: true
+
+plugins:
+  - serverless-esbuild
+
+custom:
+  build:
+    esbuild:
+      bundle: true
+      minify: true
+      sourcemap: true
+      target: node14
+      platform: node
+      external:
+        - aws-sdk

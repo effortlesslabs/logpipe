@@ -1,3 +1,12 @@
+enum LogLevel {
+  INFO
+  ERROR
+  WARN
+  DUBUG
+  SILLY
+  HTTP
+  VERBOSE
+}
 
 type Space {
   id: ID!
@@ -8,6 +17,14 @@ type Space {
   updatedAt: String!
 }
 
+type Log {
+  id: ID!
+  spaceId: ID!
+  level: LogLevel!
+  message: String!
+  createdAt: String!
+}
+
 
 input SpaceInput {
   name: String!
@@ -15,15 +32,23 @@ input SpaceInput {
   description: String
 }
 
+input LogInput {
+  spaceId: ID!
+  level: LogLevel!
+  message: String!
+}
+
 type Query {
   spaces: [Space!]!
   space(id: ID!): Space
+  logs(spaceId: ID!): [Log!]!
 }
 
 type Mutation {
   createSpace(input: SpaceInput!): Space!
   updateSpace(id: ID!, input: SpaceInput!): Space!
   deleteSpace(id: ID!): Space!
+  createLog(input: LogInput!): Log!
 }
 
 
