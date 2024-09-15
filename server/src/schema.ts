@@ -5,7 +5,7 @@ export const typeDefs = gql`
     INFO
     ERROR
     WARN
-    DUBUG
+    DEBUG
     SILLY
     HTTP
     VERBOSE
@@ -40,6 +40,11 @@ export const typeDefs = gql`
     createdAt: String!
   }
 
+  type ApiKey {
+    name: String
+    key: String
+  }
+
   input SpaceInput {
     name: String!
     schema: String!
@@ -50,6 +55,11 @@ export const typeDefs = gql`
     spaceId: ID!
     level: LogLevel!
     message: String!
+  }
+
+  input ApiKeyInput {
+    spaceId: ID!
+    name: String!
   }
 
   type Query {
@@ -65,5 +75,6 @@ export const typeDefs = gql`
     deleteSpace(id: ID!): Space!
     createLog(input: LogInput!): Log!
     magicLink(email: String!): Boolean!
+    generateApiKey(input: ApiKeyInput!): ApiKey!
   }
 `;

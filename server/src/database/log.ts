@@ -17,6 +17,10 @@ const logSchema = new mongoose.Schema<Log>(
       type: String,
       required: true,
     },
+    profileId: {
+      type: String,
+      required: true,
+    },
   },
   {
     strict: false,

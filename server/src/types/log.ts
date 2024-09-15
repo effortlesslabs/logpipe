@@ -5,5 +5,6 @@ export interface Log {
   spaceId: string;
   level: LogLevel;
   message: string;
+  profileId: string;
   createdAt: string;
 }

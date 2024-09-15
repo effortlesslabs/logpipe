@@ -1,5 +1,5 @@
 import jwt, { Jwt, JwtPayload } from "jsonwebtoken";
-
+import Space from "../database/space";
 const jwtSecret = process.env.JWT_SECRET_KEY as string;
 const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET_KEY as string;
 
@@ -37,6 +37,11 @@ export const verifyRefreshJwtToken = async (token: string): Promise<string | nul
   } catch (err) {
     return null;
   }
+};
+
+export const verifyApiKey = async (apiKey: string): Promise<string | null> => {
+  const space = await Space.findOne({ apiKeys: { $elemMatch: { key: apiKey } } });
+  return space ? space.profileId : null;
 };
 
 type Context = {

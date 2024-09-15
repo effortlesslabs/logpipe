@@ -16,6 +16,22 @@ const spaceSchema = new mongoose.Schema<Space>(
     description: {
       type: String,
     },
+    profileId: {
+      type: String,
+      required: true,
+    },
+    apiKeys: [
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+        key: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   {
     strict: false,

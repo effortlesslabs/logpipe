@@ -2,7 +2,7 @@ import { Resolvers } from "../@generated/resolvers-types";
 import Space from "../database/space";
 import Log from "../database/log";
 import Profile from "../database/profile";
-import { generateJwtToken, generateRefreshJwtToken } from "../utils/auth";
+import { generateJwtToken, generateRefreshJwtToken, withAuthGuard } from "../utils/auth";
 
 export const Query: Resolvers = {
   Query: {
@@ -20,14 +20,17 @@ export const Query: Resolvers = {
         refreshJwtToken,
       };
     },
-    async spaces() {
-      return await Space.find();
-    },
-    async space(_, { id }) {
-      return await Space.findById(id);
-    },
-    async logs(_, { spaceId }) {
-      return await Log.find({ spaceId });
-    },
+
+    spaces: withAuthGuard(async (profileId) => {
+      return await Space.find({ profileId });
+    }),
+
+    space: withAuthGuard(async (profileId, { id }) => {
+      return await Space.findOne({ _id: id, profileId });
+    }),
+
+    logs: withAuthGuard(async (profileId) => {
+      return await Log.find({ profileId });
+    }),
   },
 };

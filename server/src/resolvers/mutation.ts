@@ -25,8 +25,8 @@ export const Mutation: Resolvers = {
       await space.save();
       return space;
     }),
-    updateSpace: withAuthGuard(async (_, { id, input }) => {
-      const space = await Space.findById(id);
+    updateSpace: withAuthGuard(async (profileId, { id, input }) => {
+      const space = await Space.findOne({ _id: id, profileId });
       if (!space) {
         throw new Error("Space not found");
       }
@@ -35,18 +35,26 @@ export const Mutation: Resolvers = {
       return space;
     }),
 
-    async deleteSpace(_, { id }) {
+    deleteSpace: withAuthGuard(async (profileId, { id }) => {
       const space = await Space.findById(id);
       if (!space) {
         throw new Error("Space not found");
       }
-      await Space.deleteOne({ _id: id });
+      await Space.deleteOne({ _id: id, profileId });
       return space;
-    },
-    async createLog(_, { input }) {
-      const log = new Log(input);
+    }),
+
+    createLog: withAuthGuard(async (profileId, { input }) => {
+      const log = new Log({ ...input, profileId });
       await log.save();
       return log;
-    },
+    }),
+
+    generateApiKey: withAuthGuard(async (profileId, { input }) => {
+      const key = Math.random().toString(36).substring(2, 15);
+      const apiKey = { name: input.name, key: key };
+      await Space.updateOne({ _id: input.spaceId, profileId }, { $push: { apiKeys: apiKey } });
+      return apiKey;
+    }),
   },
 };

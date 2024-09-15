@@ -18,6 +18,17 @@ export type Scalars = {
   _FieldSet: { input: any; output: any; }
 };
 
+export type ApiKey = {
+  __typename?: 'ApiKey';
+  key?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+};
+
+export type ApiKeyInput = {
+  name: Scalars['String']['input'];
+  spaceId: Scalars['ID']['input'];
+};
+
 export type AuthResponse = {
   __typename?: 'AuthResponse';
   jwtToken?: Maybe<Scalars['String']['output']>;
@@ -41,7 +52,7 @@ export type LogInput = {
 };
 
 export enum LogLevel {
-  Dubug = 'DUBUG',
+  Debug = 'DEBUG',
   Error = 'ERROR',
   Http = 'HTTP',
   Info = 'INFO',
@@ -55,6 +66,7 @@ export type Mutation = {
   createLog: Log;
   createSpace: Space;
   deleteSpace: Space;
+  generateApiKey: ApiKey;
   magicLink: Scalars['Boolean']['output'];
   updateSpace: Space;
 };
@@ -72,6 +84,11 @@ export type MutationCreateSpaceArgs = {
 
 export type MutationDeleteSpaceArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type MutationGenerateApiKeyArgs = {
+  input: ApiKeyInput;
 };
 
 
@@ -203,10 +220,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  AuthResponse: ResolverTypeWrapper<AuthResponse>;
+  ApiKey: ResolverTypeWrapper<ApiKey>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  Log: ResolverTypeWrapper<Log>;
+  ApiKeyInput: ApiKeyInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  AuthResponse: ResolverTypeWrapper<AuthResponse>;
+  Log: ResolverTypeWrapper<Log>;
   LogInput: LogInput;
   LogLevel: LogLevel;
   Mutation: ResolverTypeWrapper<{}>;
@@ -219,10 +238,12 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  AuthResponse: AuthResponse;
+  ApiKey: ApiKey;
   String: Scalars['String']['output'];
-  Log: Log;
+  ApiKeyInput: ApiKeyInput;
   ID: Scalars['ID']['output'];
+  AuthResponse: AuthResponse;
+  Log: Log;
   LogInput: LogInput;
   Mutation: {};
   Boolean: Scalars['Boolean']['output'];
@@ -230,6 +251,12 @@ export type ResolversParentTypes = ResolversObject<{
   Query: {};
   Space: Space;
   SpaceInput: SpaceInput;
+}>;
+
+export type ApiKeyResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ApiKey'] = ResolversParentTypes['ApiKey']> = ResolversObject<{
+  key?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type AuthResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AuthResponse'] = ResolversParentTypes['AuthResponse']> = ResolversObject<{
@@ -252,6 +279,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   createLog?: Resolver<ResolversTypes['Log'], ParentType, ContextType, RequireFields<MutationCreateLogArgs, 'input'>>;
   createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateSpaceArgs, 'input'>>;
   deleteSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationDeleteSpaceArgs, 'id'>>;
+  generateApiKey?: Resolver<ResolversTypes['ApiKey'], ParentType, ContextType, RequireFields<MutationGenerateApiKeyArgs, 'input'>>;
   magicLink?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationMagicLinkArgs, 'email'>>;
   updateSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceArgs, 'id' | 'input'>>;
 }>;
@@ -281,6 +309,7 @@ export type SpaceResolvers<ContextType = Context, ParentType extends ResolversPa
 }>;
 
 export type Resolvers<ContextType = Context> = ResolversObject<{
+  ApiKey?: ApiKeyResolvers<ContextType>;
   AuthResponse?: AuthResponseResolvers<ContextType>;
   Log?: LogResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
