@@ -1,0 +1,31 @@
+
+type Space {
+  id: ID!
+  name: String!
+  schema: String!
+  description: String
+  createdAt: String!
+  updatedAt: String!
+}
+
+
+input SpaceInput {
+  name: String!
+  schema: String!
+  description: String
+}
+
+type Query {
+  spaces: [Space!]!
+  space(id: ID!): Space
+}
+
+type Mutation {
+  createSpace(input: SpaceInput!): Space!
+  updateSpace(id: ID!, input: SpaceInput!): Space!
+  deleteSpace(id: ID!): Space!
+}
+
+
+
+
