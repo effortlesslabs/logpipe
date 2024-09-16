@@ -1,6 +1,7 @@
 {
   "name": "@logpipe/server",
   "version": "0.0.1",
+  "private": true,
   "packageManager": "yarn@3.6.4",
   "scripts": {
     "codegen": "graphql-codegen",
