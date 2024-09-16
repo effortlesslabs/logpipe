@@ -40,30 +40,19 @@ export type Log = {
   __typename?: 'Log';
   createdAt: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  level: LogLevel;
+  level: Scalars['String']['output'];
   message: Scalars['String']['output'];
   spaceId: Scalars['ID']['output'];
 };
 
 export type LogInput = {
-  level: LogLevel;
+  level: Scalars['String']['input'];
   message: Scalars['String']['input'];
-  spaceId: Scalars['ID']['input'];
 };
-
-export enum LogLevel {
-  Debug = 'DEBUG',
-  Error = 'ERROR',
-  Http = 'HTTP',
-  Info = 'INFO',
-  Silly = 'SILLY',
-  Verbose = 'VERBOSE',
-  Warn = 'WARN'
-}
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createLog: Log;
+  createLog?: Maybe<Scalars['Boolean']['output']>;
   createSpace: Space;
   deleteSpace: Space;
   generateApiKey: ApiKey;
@@ -227,7 +216,6 @@ export type ResolversTypes = ResolversObject<{
   AuthResponse: ResolverTypeWrapper<AuthResponse>;
   Log: ResolverTypeWrapper<Log>;
   LogInput: LogInput;
-  LogLevel: LogLevel;
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Profile: ResolverTypeWrapper<Profile>;
@@ -269,14 +257,14 @@ export type AuthResponseResolvers<ContextType = Context, ParentType extends Reso
 export type LogResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Log'] = ResolversParentTypes['Log']> = ResolversObject<{
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  level?: Resolver<ResolversTypes['LogLevel'], ParentType, ContextType>;
+  level?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spaceId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  createLog?: Resolver<ResolversTypes['Log'], ParentType, ContextType, RequireFields<MutationCreateLogArgs, 'input'>>;
+  createLog?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreateLogArgs, 'input'>>;
   createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateSpaceArgs, 'input'>>;
   deleteSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationDeleteSpaceArgs, 'id'>>;
   generateApiKey?: Resolver<ResolversTypes['ApiKey'], ParentType, ContextType, RequireFields<MutationGenerateApiKeyArgs, 'input'>>;

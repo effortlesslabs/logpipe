@@ -1,5 +1,5 @@
 {
-  "name": "log-pipe-server",
+  "name": "@logpipe/server",
   "packageManager": "yarn@3.6.4",
   "type": "module",
   "scripts": {

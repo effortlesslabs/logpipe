@@ -1,0 +1,17 @@
+{
+  "name": "pipe",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "clean": "lerna clean",
+    "build": "lerna run build",
+    "test": "lerna run test",
+    "publish": "lerna publish --scope @logpipe/logger"
+  },
+  "devDependencies": {
+    "lerna": "^8.1.8"
+  }
+}

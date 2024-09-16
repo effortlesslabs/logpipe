@@ -1,16 +1,6 @@
 import gql from "graphql-tag";
 
 export const typeDefs = gql`
-  enum LogLevel {
-    INFO
-    ERROR
-    WARN
-    DEBUG
-    SILLY
-    HTTP
-    VERBOSE
-  }
-
   type Profile {
     id: ID!
     name: String!
@@ -35,7 +25,7 @@ export const typeDefs = gql`
   type Log {
     id: ID!
     spaceId: ID!
-    level: LogLevel!
+    level: String!
     message: String!
     createdAt: String!
   }
@@ -52,8 +42,7 @@ export const typeDefs = gql`
   }
 
   input LogInput {
-    spaceId: ID!
-    level: LogLevel!
+    level: String!
     message: String!
   }
 
@@ -73,7 +62,7 @@ export const typeDefs = gql`
     createSpace(input: SpaceInput!): Space!
     updateSpace(id: ID!, input: SpaceInput!): Space!
     deleteSpace(id: ID!): Space!
-    createLog(input: LogInput!): Log!
+    createLog(input: LogInput!): Boolean
     magicLink(email: String!): Boolean!
     generateApiKey(input: ApiKeyInput!): ApiKey!
   }
