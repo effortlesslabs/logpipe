@@ -8,10 +8,16 @@ provider:
   region: us-east-1
   environment:
     MONGO_DB_URI: ${env:MONGO_DB_URI}
+    SES_AWS_ACCESS_KEY_ID: ${env:SES_AWS_ACCESS_KEY_ID}
+    SES_AWS_SECRET_ACCESS_KEY: ${env:SES_AWS_SECRET_ACCESS_KEY}
+    JWT_SECRET_KEY: ${env:JWT_SECRET_KEY}
+    JWT_REFRESH_SECRET_KEY: ${env:JWT_REFRESH_SECRET_KEY}
 
 functions:
   graphql:
     handler: src/lambda.graphqlHandler
+    memorySize: 1024
+    timeout: 60
     events:
       - http:
           path: graphql
@@ -23,7 +29,7 @@ functions:
           cors: true
 
 plugins:
-  - serverless-esbuild
+  individually: true
 
 custom:
   build:

@@ -1,3 +1,4 @@
+import { generateApiKey } from "generate-api-key";
 import { Resolvers } from "../@generated/resolvers-types";
 import Space from "../database/space";
 import Log from "../database/log";
@@ -8,14 +9,23 @@ import { withAuthGuard } from "../utils/auth";
 export const Mutation: Resolvers = {
   Mutation: {
     async magicLink(_, { email }) {
-      const randomCode = Math.random().toString(36).substring(2, 15);
+      const randomCode = generateApiKey({
+        length: 20,
+        prefix: "code",
+      }).toString();
       const profile = await Profile.findOne({ email });
+
       if (profile) {
         profile.authCode = randomCode;
         await profile.save();
       } else {
-        await new Profile({ email, authCode: randomCode }).save();
+        await new Profile({
+          name: "Anonymous",
+          email,
+          authCode: randomCode,
+        }).save();
       }
+
       await sendMagicLink({ to: email, authCode: randomCode });
       return true;
     },
@@ -51,7 +61,7 @@ export const Mutation: Resolvers = {
     }),
 
     generateApiKey: withAuthGuard(async ({ profileId }, { input }) => {
-      const key = Math.random().toString(36).substring(2, 15);
+      const key = generateApiKey({ length: 20, prefix: "logpipe" }).toString();
       const apiKey = { name: input.name, key: key };
       await Space.updateOne(
         { _id: input.spaceId, profileId },

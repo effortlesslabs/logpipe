@@ -1,0 +1,27 @@
+name: workflow-server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: install serverless
+        run: npm install -g serverless
+
+      - name: serverless config
+        run: |
+          serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY }} --secret ${{ secrets.AWS_SECRET_KEY }}
+
+      - name: install dependencies
+        run: npm install
+
+      - name: deploy
+        run: npm run deploy

@@ -23,8 +23,10 @@ const verifyJwtTokenUsingSecret = async (
     complete: true,
     ignoreExpiration: false,
   });
+
   const payload: JwtPayload = decodedToken.payload as JwtPayload;
-  return payload.profileId;
+
+  return payload.id;
 };
 
 export const verifyJwtToken = async (token: string): Promise<string | null> => {

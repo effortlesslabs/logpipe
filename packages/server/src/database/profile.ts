@@ -9,9 +9,12 @@ const profileSchema = new mongoose.Schema<Profile>(
       type: String,
       required: true,
     },
-    image: {
+    email: {
       type: String,
       required: true,
+    },
+    image: {
+      type: String,
     },
     authCode: {
       type: String,
