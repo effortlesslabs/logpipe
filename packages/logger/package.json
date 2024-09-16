@@ -3,8 +3,10 @@
   "version": "0.0.2",
   "packageManager": "yarn@1.22.22",
   "license": "MIT",
-  "repository": "https://github.com/effortlesslabs/logpipe",
-  "author": "Nasim Akhtar <fnlog10@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/effortlesslabs/logpipe.git"
+  },
   "publishConfig": {
     "access": "public"
   },
