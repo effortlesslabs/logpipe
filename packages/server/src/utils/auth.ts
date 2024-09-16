@@ -1,5 +1,6 @@
 import jwt, { Jwt, JwtPayload } from "jsonwebtoken";
 import Space from "../database/space";
+import { Context } from "../types/context";
 const jwtSecret = process.env.JWT_SECRET_KEY as string;
 const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET_KEY as string;
 
@@ -13,7 +14,10 @@ export const generateRefreshJwtToken = (id: string): string => {
   return `JWT ${jwtToken}`;
 };
 
-const verifyJwtTokenUsingSecret = async (token: string, secret: string): Promise<string | null> => {
+const verifyJwtTokenUsingSecret = async (
+  token: string,
+  secret: string
+): Promise<string | null> => {
   const verifyToken = token.substring(4);
   const decodedToken: Jwt = await jwt.verify(verifyToken, secret, {
     complete: true,
@@ -31,7 +35,9 @@ export const verifyJwtToken = async (token: string): Promise<string | null> => {
   }
 };
 
-export const verifyRefreshJwtToken = async (token: string): Promise<string | null> => {
+export const verifyRefreshJwtToken = async (
+  token: string
+): Promise<string | null> => {
   try {
     return await verifyJwtTokenUsingSecret(token, jwtRefreshSecret);
   } catch (err) {
@@ -39,13 +45,15 @@ export const verifyRefreshJwtToken = async (token: string): Promise<string | nul
   }
 };
 
-export const verifyApiKey = async (apiKey: string): Promise<string | null> => {
-  const space = await Space.findOne({ apiKeys: { $elemMatch: { key: apiKey } } });
-  return space ? space.profileId : null;
-};
-
-type Context = {
-  id?: string;
+export const verifyApiKey = async (apiKey: string) => {
+  const space = await Space.findOne({
+    apiKeys: { $elemMatch: { key: apiKey } },
+  });
+  const result = {
+    profileId: space ? space.profileId : null,
+    spaceId: space ? space._id.toString() : null,
+  };
+  return result;
 };
 
 /**
@@ -56,12 +64,19 @@ type Context = {
  * @param functionToCall - The function to be guarded with authentication.
  * @returns A new function that includes the authentication guard.
  */
-export function withAuthGuard<T, S, V>(functionToCall: (id: string, args: S) => V) {
+export function withAuthGuard<T, S, V>(
+  functionToCall: (authContext: Context, args: S) => V
+) {
   return function (_: T, args: S, context: Context) {
-    if (!context.id) {
+    if (!context.profileId) {
       throw new Error("Unauthorized");
     }
 
-    return functionToCall(context.id, args);
+    const authContext = {
+      profileId: context.profileId,
+      spaceId: context.spaceId,
+    };
+
+    return functionToCall(authContext, args);
   };
 }

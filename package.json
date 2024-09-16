@@ -9,6 +9,7 @@
     "clean": "lerna clean",
     "build": "lerna run build",
     "test": "lerna run test",
+    "deploy": "lerna run deploy",
     "publish": "lerna publish --scope @logpipe/logger"
   },
   "devDependencies": {

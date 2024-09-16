@@ -19,13 +19,13 @@ export const Mutation: Resolvers = {
       await sendMagicLink({ to: email, authCode: randomCode });
       return true;
     },
-    createSpace: withAuthGuard(async (profileId, { input }) => {
+    createSpace: withAuthGuard(async ({ profileId }, { input }) => {
       const newInput = { ...input, profileId };
       const space = new Space(newInput);
       await space.save();
       return space;
     }),
-    updateSpace: withAuthGuard(async (profileId, { id, input }) => {
+    updateSpace: withAuthGuard(async ({ profileId }, { id, input }) => {
       const space = await Space.findOne({ _id: id, profileId });
       if (!space) {
         throw new Error("Space not found");
@@ -35,7 +35,7 @@ export const Mutation: Resolvers = {
       return space;
     }),
 
-    deleteSpace: withAuthGuard(async (profileId, { id }) => {
+    deleteSpace: withAuthGuard(async ({ profileId }, { id }) => {
       const space = await Space.findById(id);
       if (!space) {
         throw new Error("Space not found");
@@ -44,16 +44,19 @@ export const Mutation: Resolvers = {
       return space;
     }),
 
-    createLog: withAuthGuard(async (profileId, { input }) => {
-      const log = new Log({ ...input, profileId });
+    createLog: withAuthGuard(async ({ profileId, spaceId }, { input }) => {
+      const log = new Log({ ...input, spaceId, profileId });
       await log.save();
-      return log;
+      return true;
     }),
 
-    generateApiKey: withAuthGuard(async (profileId, { input }) => {
+    generateApiKey: withAuthGuard(async ({ profileId }, { input }) => {
       const key = Math.random().toString(36).substring(2, 15);
       const apiKey = { name: input.name, key: key };
-      await Space.updateOne({ _id: input.spaceId, profileId }, { $push: { apiKeys: apiKey } });
+      await Space.updateOne(
+        { _id: input.spaceId, profileId },
+        { $push: { apiKeys: apiKey } }
+      );
       return apiKey;
     }),
   },

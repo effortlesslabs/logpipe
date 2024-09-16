@@ -1,1 +1,4 @@
-export interface Context {}
+export interface Context {
+  profileId?: string;
+  spaceId?: string;
+}
