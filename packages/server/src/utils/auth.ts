@@ -71,7 +71,11 @@ export function withAuthGuard<T, S, V>(
 ) {
   return function (_: T, args: S, context: Context) {
     if (!context.profileId) {
-      throw new Error("Unauthorized");
+      if (!context.spaceId) {
+        throw new Error("Please provide a valid API key");
+      } else {
+        throw new Error("Unauthorized");
+      }
     }
 
     const authContext = {
