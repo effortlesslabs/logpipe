@@ -23,8 +23,10 @@ const verifyJwtTokenUsingSecret = async (
     complete: true,
     ignoreExpiration: false,
   });
+
   const payload: JwtPayload = decodedToken.payload as JwtPayload;
-  return payload.profileId;
+
+  return payload.id;
 };
 
 export const verifyJwtToken = async (token: string): Promise<string | null> => {
@@ -69,7 +71,11 @@ export function withAuthGuard<T, S, V>(
 ) {
   return function (_: T, args: S, context: Context) {
     if (!context.profileId) {
-      throw new Error("Unauthorized");
+      if (!context.spaceId) {
+        throw new Error("Please provide a valid API key");
+      } else {
+        throw new Error("Unauthorized");
+      }
     }
 
     const authContext = {

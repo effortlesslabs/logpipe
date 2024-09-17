@@ -1,7 +1,22 @@
 {
   "name": "@logpipe/logger",
-  "version": "1.0.0",
-  "packageManager": "yarn@3.6.4",
+  "version": "0.0.2",
+  "packageManager": "yarn@1.22.22",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/effortlesslabs/logpipe.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "type": "commonjs",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "exports": "./dist/index.js",
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build",

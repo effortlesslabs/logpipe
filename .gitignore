@@ -30,6 +30,6 @@ node_modules/
 
 generated-schema.graphql
 .yarn
-yarn.lock
 .env
 .serverless
+.next

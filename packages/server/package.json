@@ -1,11 +1,13 @@
 {
   "name": "@logpipe/server",
-  "packageManager": "yarn@3.6.4",
-  "type": "module",
+  "version": "0.0.2",
+  "private": true,
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "codegen": "graphql-codegen",
-    "build": " npm run codegen && esbuild src/lambda.ts --bundle --platform=node --target=node14 --outdir=dist",
-    "start": "serverless offline",
+    "build": " npm run codegen && esbuild src/index.ts --bundle --platform=node --target=node14 --outdir=dist",
+    "start": "node dist/index.js",
+    "dev": "nodemon --watch \"src/**\" --ext \"ts,json,graphql\" --exec \"npm run build && npm run start\" --ignore ./src/@generated/",
     "deploy": "serverless deploy"
   },
   "dependencies": {
@@ -17,6 +19,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "apollo-server-lambda": "^3.13.0",
     "aws-sdk": "^2.1691.0",
+    "generate-api-key": "1.0.2",
     "graphql": "^16.9.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.6.2"

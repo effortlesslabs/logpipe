@@ -7,7 +7,12 @@ const query = `
     }
 `;
 
-function createLog(url: string, apiKey: string, level: string, message: string) {
+function createLog(
+  url: string,
+  apiKey: string,
+  level: string,
+  message: string
+) {
   return fetch(url, {
     method: "POST",
     headers: {
@@ -51,10 +56,12 @@ class PipeTransport extends Transport {
         next();
       })
       .catch((err) => {
-        console.error("error sending log to pipe. please check your uri and api key", err);
+        console.error(
+          "error sending log to pipe. please check your uri and api key",
+          err
+        );
         next();
       });
-    next();
   }
 }
 

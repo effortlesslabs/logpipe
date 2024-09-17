@@ -1,10 +1,7 @@
 import AWS from "aws-sdk";
 
-import dotenv from "dotenv";
-dotenv.config();
-
-const accessKey = process.env.AWS_ACCESS_KEY_ID;
-const secretKey = process.env.AWS_SECRET_ACCESS_KEY;
+const accessKey = process.env.SES_AWS_ACCESS_KEY_ID;
+const secretKey = process.env.SES_AWS_SECRET_ACCESS_KEY;
 
 AWS.config.update({
   region: "ap-southeast-1",

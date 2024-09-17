@@ -10,7 +10,8 @@
     "build": "lerna run build",
     "test": "lerna run test",
     "deploy": "lerna run deploy",
-    "publish": "lerna publish --scope @logpipe/logger"
+    "dev": "lerna run dev",
+    "publish": "lerna publish"
   },
   "devDependencies": {
     "lerna": "^8.1.8"
