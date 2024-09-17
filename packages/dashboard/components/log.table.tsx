@@ -1,3 +1,4 @@
+import { GET_LOGS } from "@/graphql/log";
 import {
   Table,
   TableBody,
@@ -7,7 +8,19 @@ import {
   TableRow,
 } from "./ui/table";
 
+import { useQuery } from "@apollo/client";
+import { Log } from "@/types/log";
+
 function LogTable() {
+  const { data, loading, error } = useQuery(GET_LOGS, {
+    variables: { spaceId: "66e9656d7d998ff29c479bc4" },
+    fetchPolicy: "cache-and-network",
+  });
+
+  console.log(data, error);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div className="text-white">Error: {error.message}</div>;
   return (
     <Table>
       <TableHeader className="text-sm">
@@ -18,16 +31,13 @@ function LogTable() {
         </TableRow>
       </TableHeader>
       <TableBody className="text-sm text-white">
-        <TableRow className=" border-[#333]">
-          <TableCell>2021-10-01 12:00:00</TableCell>
-          <TableCell>INFO</TableCell>
-          <TableCell>Server started</TableCell>
-        </TableRow>
-        <TableRow className="">
-          <TableCell>2021-10-01 1:00:00</TableCell>
-          <TableCell>INFO</TableCell>
-          <TableCell>Server ended</TableCell>
-        </TableRow>
+        {data.logs.map((log: Log) => (
+          <TableRow key={log.id} className="border-[#333]">
+            <TableCell>{log.createdAt}</TableCell>
+            <TableCell className="uppercase">{log.level}</TableCell>
+            <TableCell>{log.message}</TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );
