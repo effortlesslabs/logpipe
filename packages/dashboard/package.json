@@ -10,18 +10,22 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
+    "@logpipe/logger": "*",
+    "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "graphql": "^16.9.0",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.441.0",
     "next": "14.2.11",
+    "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.5.2",
-    "tailwindcss-animate": "^1.0.7",
-    "@logpipe/logger": "*"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

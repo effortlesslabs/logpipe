@@ -56,6 +56,7 @@ export const typeDefs = gql`
     space(id: ID!): Space
     logs(spaceId: ID!): [Log!]!
     validateMagicLink(code: String): AuthResponse
+    profile: Profile
   }
 
   type Mutation {

@@ -101,6 +101,7 @@ export type Profile = {
 export type Query = {
   __typename?: 'Query';
   logs: Array<Log>;
+  profile?: Maybe<Profile>;
   space?: Maybe<Space>;
   spaces: Array<Space>;
   validateMagicLink?: Maybe<AuthResponse>;
@@ -281,6 +282,7 @@ export type ProfileResolvers<ContextType = Context, ParentType extends Resolvers
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   logs?: Resolver<Array<ResolversTypes['Log']>, ParentType, ContextType, RequireFields<QueryLogsArgs, 'spaceId'>>;
+  profile?: Resolver<Maybe<ResolversTypes['Profile']>, ParentType, ContextType>;
   space?: Resolver<Maybe<ResolversTypes['Space']>, ParentType, ContextType, RequireFields<QuerySpaceArgs, 'id'>>;
   spaces?: Resolver<Array<ResolversTypes['Space']>, ParentType, ContextType>;
   validateMagicLink?: Resolver<Maybe<ResolversTypes['AuthResponse']>, ParentType, ContextType, Partial<QueryValidateMagicLinkArgs>>;

@@ -27,6 +27,10 @@ export const Query: Resolvers = {
       };
     },
 
+    profile: withAuthGuard(async ({ profileId }) => {
+      return await Profile.findOne({ _id: profileId });
+    }),
+
     spaces: withAuthGuard(async ({ profileId }) => {
       return await Space.find({ profileId });
     }),
