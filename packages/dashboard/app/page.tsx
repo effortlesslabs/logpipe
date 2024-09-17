@@ -1,13 +1,16 @@
-import Navbar from "@/components/navbar";
-import Navbar2 from "@/components/navbar2";
-import Content from "@/components/content";
+import LogTable from "@/components/log.table";
+import Sidebar from "@/components/sidebar";
 
 export default function Home() {
   return (
-    <div className="flex-col bg-[#0a0a0a]">
-      <Navbar />
-      <Navbar2 />
-      <Content />
+    <div className="bg-black flex h-screen flex-col">
+      <div className="h-16 text-white flex justify-center items-center">
+        Header
+      </div>
+      <div className="flex flex-grow">
+        <Sidebar />
+        <LogTable />
+      </div>
     </div>
   );
 }
