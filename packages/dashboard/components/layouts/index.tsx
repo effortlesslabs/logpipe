@@ -2,7 +2,7 @@
 
 import { ApolloProvider } from "@apollo/client";
 import client from "@/graphql/apollo";
-import Sidebar from "./sidebar";
+// import Sidebar from "./sidebar";
 import Header from "./header";
 
 function Layouts({ children }: { children: React.ReactNode }) {
@@ -10,10 +10,7 @@ function Layouts({ children }: { children: React.ReactNode }) {
     <ApolloProvider client={client}>
       <div className="relative h-screen flex flex-col">
         <Header />
-        <div className="flex bg-background flex-grow">
-          <Sidebar />
-          {children}
-        </div>
+        {children}
       </div>
     </ApolloProvider>
   );
