@@ -30,10 +30,11 @@ function LogsTable({ loading, error, logs }: LogsTableProps) {
             <TableHead>Message</TableHead>
           </TableRow>
         </TableHeader>
-        <div className="p-2" />
+        {/* <span className="p-2" /> */}
+        <br />
 
-        {error && <div>{error.message}</div>}
-        {!loading && logs.length === 0 && <div>No logs found</div>}
+        {error && <h3>{error.message}</h3>}
+        {!loading && logs.length === 0 && <h3>No logs found</h3>}
         {!loading && logs.length > 0 && (
           <TableBody className="text-sm">
             {logs.map((log: Log) => (
