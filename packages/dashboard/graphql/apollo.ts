@@ -12,19 +12,17 @@ const isServer = typeof window === "undefined";
 
 const uri = process.env.NEXT_PUBLIC_LOGPIPE_API_URL || "http://localhost:4000";
 
-const apiKey =
-  process.env.NEXT_PUBLIC_LOGPIPE_API_KEY || "logpipe.b0N8Z9jjYMeDXA..3RjX";
-
 const httpLink = createHttpLink({
   uri,
 });
 
 const authLink = setContext(async (_, { headers }) => {
   if (isServer) return { headers };
+  const token = await localStorage.getItem("jwtToken");
   return {
     headers: {
       ...headers,
-      "x-api-key": apiKey,
+      authorization: token,
     },
   };
 });

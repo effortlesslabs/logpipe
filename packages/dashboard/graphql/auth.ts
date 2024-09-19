@@ -8,7 +8,7 @@ export const MAGIC_LINK = gql`
 
 export const VALIDATE_MAGIC_LINK = gql`
   query validateMagicLink($code: String!) {
-    magicLink(email: $email) {
+    validateMagicLink(code: $code) {
       profile {
         id
         name
