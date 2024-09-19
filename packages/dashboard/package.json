@@ -15,11 +15,7 @@
     "@tanstack/react-table": "^8.20.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-<<<<<<< HEAD
-    "dropdown-menu": "^0.1.1",
-=======
     "formik": "^2.4.6",
->>>>>>> cc9db6ba186f2c843846957ffd3b389111cb708c
     "graphql": "^16.9.0",
     "input": "^1.0.1",
     "lodash": "^4.17.21",
