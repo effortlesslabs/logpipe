@@ -5,6 +5,7 @@ export const typeDefs = gql`
     id: ID!
     name: String!
     image: String!
+    email: String!
   }
 
   type AuthResponse {
@@ -55,7 +56,7 @@ export const typeDefs = gql`
     spaces: [Space!]!
     space(id: ID!): Space
     logs(spaceId: ID!): [Log!]!
-    validateMagicLink(code: String): AuthResponse
+    validateMagicLink(code: String!): AuthResponse
     profile: Profile
   }
 

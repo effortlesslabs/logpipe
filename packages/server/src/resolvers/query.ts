@@ -5,17 +5,21 @@ import Profile from "../database/profile";
 import {
   generateJwtToken,
   generateRefreshJwtToken,
+  verifyMagicLinkToken,
   withAuthGuard,
 } from "../utils/auth";
 
 export const Query: Resolvers = {
   Query: {
     async validateMagicLink(_, { code }) {
-      const profile = await Profile.findOne({ authCode: code });
-      if (!profile) {
-        throw new Error("Invalid code");
+      const email = await verifyMagicLinkToken(code);
+      if (!email) {
+        throw new Error("Invalid link or link has expired");
       }
-
+      const profile = await Profile.findOne({ email });
+      if (!profile) {
+        throw new Error("Profile not found");
+      }
       const jwtToken = await generateJwtToken(profile._id.toString());
       const refreshJwtToken = await generateRefreshJwtToken(
         profile._id.toString()

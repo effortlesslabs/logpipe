@@ -3,5 +3,10 @@ export interface Profile {
   name: string;
   email: string;
   image: string;
-  authCode: string;
+}
+
+export interface AuthResponse {
+  profile: Profile;
+  jwtToken: string;
+  refreshJwtToken: string;
 }

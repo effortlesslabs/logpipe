@@ -4,6 +4,11 @@ import { Context } from "../types/context";
 const jwtSecret = process.env.JWT_SECRET_KEY as string;
 const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET_KEY as string;
 
+export const generateMagicLinkToken = (email: string): string => {
+  const jwtToken = jwt.sign({ email }, jwtSecret, { expiresIn: "10mins" });
+  return jwtToken;
+};
+
 export const generateJwtToken = (id: string): string => {
   const jwtToken = jwt.sign({ id }, jwtSecret, { expiresIn: "24h" });
   return `JWT ${jwtToken}`;
@@ -12,6 +17,23 @@ export const generateJwtToken = (id: string): string => {
 export const generateRefreshJwtToken = (id: string): string => {
   const jwtToken = jwt.sign({ id }, jwtRefreshSecret, { expiresIn: "30 days" });
   return `JWT ${jwtToken}`;
+};
+
+export const verifyMagicLinkToken = async (
+  token: string
+): Promise<string | null> => {
+  try {
+    const decodedToken: Jwt = await jwt.verify(token, jwtSecret, {
+      complete: true,
+      ignoreExpiration: false,
+    });
+
+    const payload: JwtPayload = decodedToken.payload as JwtPayload;
+
+    return payload.email;
+  } catch (err) {
+    return null;
+  }
 };
 
 const verifyJwtTokenUsingSecret = async (

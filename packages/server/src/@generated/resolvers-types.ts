@@ -93,6 +93,7 @@ export type MutationUpdateSpaceArgs = {
 
 export type Profile = {
   __typename?: 'Profile';
+  email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   image: Scalars['String']['output'];
   name: Scalars['String']['output'];
@@ -119,7 +120,7 @@ export type QuerySpaceArgs = {
 
 
 export type QueryValidateMagicLinkArgs = {
-  code?: InputMaybe<Scalars['String']['input']>;
+  code: Scalars['String']['input'];
 };
 
 export type Space = {
@@ -274,6 +275,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
 }>;
 
 export type ProfileResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Profile'] = ResolversParentTypes['Profile']> = ResolversObject<{
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   image?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -285,7 +287,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   profile?: Resolver<Maybe<ResolversTypes['Profile']>, ParentType, ContextType>;
   space?: Resolver<Maybe<ResolversTypes['Space']>, ParentType, ContextType, RequireFields<QuerySpaceArgs, 'id'>>;
   spaces?: Resolver<Array<ResolversTypes['Space']>, ParentType, ContextType>;
-  validateMagicLink?: Resolver<Maybe<ResolversTypes['AuthResponse']>, ParentType, ContextType, Partial<QueryValidateMagicLinkArgs>>;
+  validateMagicLink?: Resolver<Maybe<ResolversTypes['AuthResponse']>, ParentType, ContextType, RequireFields<QueryValidateMagicLinkArgs, 'code'>>;
 }>;
 
 export type SpaceResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Space'] = ResolversParentTypes['Space']> = ResolversObject<{
