@@ -12,10 +12,16 @@
     "@apollo/client": "^3.11.8",
     "@logpipe/logger": "*",
     "@radix-ui/react-slot": "^1.1.0",
+    "@tanstack/react-table": "^8.20.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+<<<<<<< HEAD
+    "dropdown-menu": "^0.1.1",
+=======
     "formik": "^2.4.6",
+>>>>>>> cc9db6ba186f2c843846957ffd3b389111cb708c
     "graphql": "^16.9.0",
+    "input": "^1.0.1",
     "lodash": "^4.17.21",
     "lucide-react": "^0.441.0",
     "next": "14.2.11",
@@ -28,6 +34,7 @@
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@types/lodash": "^4.17.7",
     "@types/node": "^20",
     "@types/react": "^18",
