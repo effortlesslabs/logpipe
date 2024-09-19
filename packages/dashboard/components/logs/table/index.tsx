@@ -1,55 +1,59 @@
-"use client";
+import { Logs, columns } from "./columns";
+import { DataTable } from "./data-table";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-
-import { Log } from "@/types/log";
-import { ApolloError } from "@apollo/client";
-import Loader from "./loader";
-
-interface LogsTableProps {
-  loading: boolean;
-  error: ApolloError | undefined;
-  logs: Log[];
+async function getData(): Promise<Logs[]> {
+  // Fetch data from your API here.
+  return [
+    {
+      id: "1",
+      spaceId: "1",
+      profileId: "1",
+      createdAt: "2021-09-01T00:00:00Z",
+      level: "info",
+      message: "Hello, world!",
+    },
+    {
+      id: "2",
+      spaceId: "1",
+      profileId: "1",
+      createdAt: "2021-09-01T01:00:00Z",
+      level: "info",
+      message: "Hello, world!2",
+    },
+    {
+      id: "3",
+      spaceId: "1",
+      profileId: "1",
+      createdAt: "2021-09-01T02:00:00.12Z",
+      level: "info",
+      message: "Hello, world!3",
+    },
+    {
+      id: "4",
+      spaceId: "1",
+      profileId: "1",
+      createdAt: "2021-09-01T18:00:00.12Z",
+      level: "warning",
+      message: "Hello, world!3",
+    },
+    {
+      id: "5",
+      spaceId: "1",
+      profileId: "1",
+      createdAt: "2021-09-01T02:00:00Z",
+      level: "error",
+      message: "Hello, world!3",
+    },
+    // ...
+  ];
 }
 
-function LogsTable({ loading, error, logs }: LogsTableProps) {
-  return (
-    <div className="w-full">
-      <Table>
-        <TableHeader className="text-sm">
-          <TableRow>
-            <TableHead className="w-52">Timestamp</TableHead>
-            <TableHead className="w-36">Level</TableHead>
-            <TableHead>Message</TableHead>
-          </TableRow>
-        </TableHeader>
-        {/* <span className="p-2" /> */}
-        <br />
+export default async function DemoPage() {
+  const data = await getData();
 
-        {error && <h3>{error.message}</h3>}
-        {!loading && logs.length === 0 && <h3>No logs found</h3>}
-        {!loading && logs.length > 0 && (
-          <TableBody className="text-sm">
-            {logs.map((log: Log) => (
-              <TableRow key={log.id} className="rounded-xl">
-                <TableCell>{log.createdAt}</TableCell>
-                <TableCell className="uppercase">{log.level}</TableCell>
-                <TableCell>{log.message}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        )}
-      </Table>
-      {loading && <Loader />}
+  return (
+    <div className="container mx-auto py-10">
+      <DataTable columns={columns} data={data} />
     </div>
   );
 }
-
-export default LogsTable;
