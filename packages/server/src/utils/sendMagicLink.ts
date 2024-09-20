@@ -42,7 +42,7 @@ async function sendMagicLink(options: Options) {
         <br></br>
         <p>To securely access your account, please use the login link below:</p>
         <br></br>
-        <a href="${magicLinkUrl}/${options.authCode}">Click here to login</a>
+        <a href="${magicLinkUrl}/verify/${options.authCode}">Click here to login</a>
         <br></br>
         <p>For your security, this link will expire in 10 minutes and can only be used once.</p>
         <p>If you didn't request this link, please ignore this email or contact us for assistance.</p>
