@@ -18,10 +18,7 @@ function CopyButton({ element }: CopyButtonProps) {
   }
 
   return (
-    <Button
-      onClick={copyToClipboard}
-      className="w-8 h-8 bg-background text-black hover:bg-secondary p-0"
-    >
+    <Button onClick={copyToClipboard} variant="outline" className="w-8 h-8 p-0">
       {copied ? <CheckIcon size={16} /> : <ClipboardIcon size={16} />}
     </Button>
   );
