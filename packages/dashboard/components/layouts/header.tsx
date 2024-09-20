@@ -1,20 +1,16 @@
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { ModeToggle } from "./mode-toggle";
+import ProfileMenu from "../profile-menu";
 
 function Header() {
-  const router = useRouter();
-
-  const handleClick = async () => {
-    await router.push("/spaces");
-  };
-
   return (
     <div className="border-b py-3 px-5 flex justify-between">
       <h1 className="font-bold text-2xl">
         <a href="/spaces">LogPipe</a>
       </h1>
-      <ModeToggle />
+      <div className="gap-4 flex items-center">
+        <ModeToggle />
+        <ProfileMenu />
+      </div>
     </div>
   );
 }
