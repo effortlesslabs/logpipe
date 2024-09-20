@@ -20,7 +20,11 @@ const level: ColumnDef<Log> = {
     };
 
     return (
-      <div className={`uppercase ${getColor(level)}`}>
+      <div
+        className={`text-sm bg-foreground/5 py-1 px-2 rounded-lg capitalize ${getColor(
+          level
+        )}`}
+      >
         {row.getValue("level")}
       </div>
     );

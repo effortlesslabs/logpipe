@@ -1,5 +1,4 @@
 import React from "react";
-import { PaginationInstance } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 
 interface PaginationProps {
@@ -16,8 +15,6 @@ export function Pagination(props: PaginationProps) {
         size="sm"
         onClick={() => props.handlePreviousPage()}
         disabled={!props.getCanPreviousPage()}
-        // onClick={() => table.previousPage()}
-        // disabled={!table.getCanPreviousPage()}
       >
         Previous
       </Button>
@@ -26,8 +23,6 @@ export function Pagination(props: PaginationProps) {
         size="sm"
         onClick={() => props.handleNextPage()}
         disabled={!props.getCanPreviousPage()}
-        // onClick={() => table.nextPage()}
-        // disabled={!table.getCanNextPage()}
       >
         Next
       </Button>

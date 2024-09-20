@@ -1,4 +1,5 @@
 import { Table } from "@tanstack/react-table";
+import { Filter, RotateCw, Play } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -10,15 +11,43 @@ import {
 import { Button } from "@/components/ui/button";
 import { LevelFilter } from "./level";
 
-export function Filters<T>({ table }: { table: Table<T> }) {
-  return (
-    <div className="flex items-center">
-      <LevelFilter
-        value={(table.getColumn("level")?.getFilterValue() as string) ?? ""}
-        onChange={(value) => table.getColumn("level")?.setFilterValue(value)}
-      />
+interface FiltersProps<T> {
+  table: Table<T>;
+  toggleFilters: boolean;
+  setToggleFilters: (value: boolean) => void;
+}
 
-      <DropdownMenu>
+export function Filters<T>(props: FiltersProps<T>) {
+  return (
+    <div className="flex items-center gap-3 justify-between">
+      <div className="flex gap-3 w-full">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => props.setToggleFilters(!props.toggleFilters)}
+        >
+          <Filter size={16} />
+        </Button>
+        <LevelFilter
+          value={
+            (props.table.getColumn("level")?.getFilterValue() as string) ?? ""
+          }
+          onChange={(value) =>
+            props.table.getColumn("level")?.setFilterValue(value)
+          }
+        />
+      </div>
+      <div className="flex gap-2">
+        <Button variant="outline" size="icon">
+          <RotateCw size={16} />
+        </Button>
+
+        <Button variant="outline" className="flex gap-2">
+          <Play size={16} /> Live
+        </Button>
+      </div>
+
+      {/* <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="ml-auto">
             Columns
@@ -50,7 +79,7 @@ export function Filters<T>({ table }: { table: Table<T> }) {
               );
             })}
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu> */}
     </div>
   );
 }

@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
+    "dayjs": "^1.11.13",
     "dropdown-menu": "^0.1.1",
     "formik": "^2.4.6",
     "graphql": "^16.9.0",

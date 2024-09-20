@@ -20,14 +20,13 @@ export function Body<T>({ rows, columnsCount, loading, error }: BodyProps<T>) {
     <TableBody>
       {!loading &&
         logs.map((row) => (
-          <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+          <TableRow
+            className="cursor-pointer"
+            key={row.id}
+            data-state={row.getIsSelected() && "selected"}
+          >
             {row.getVisibleCells().map((cell) => (
-              <TableCell
-                key={cell.id}
-                className={
-                  cell.column.columnDef.header == "info" ? "text-red-500" : ""
-                }
-              >
+              <TableCell key={cell.id}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </TableCell>
             ))}

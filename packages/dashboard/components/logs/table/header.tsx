@@ -5,7 +5,7 @@ export function Header<T>({ groups }: { groups: HeaderGroup<T>[] }) {
   return (
     <TableHeader>
       {groups.map((headerGroup) => (
-        <TableRow key={headerGroup.id}>
+        <TableRow className="cursor-pointer" key={headerGroup.id}>
           {headerGroup.headers.map((header) => {
             return (
               <TableHead

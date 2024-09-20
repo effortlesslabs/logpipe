@@ -1,6 +1,6 @@
-"use client";
-
 import { gql } from "@apollo/client";
+import client from "@/graphql/apollo";
+import { Log } from "@/types/log";
 
 export const GET_LOGS = gql`
   query GetLogs($spaceId: ID!) {
@@ -12,3 +12,16 @@ export const GET_LOGS = gql`
     }
   }
 `;
+
+export async function getLogsApi(spaceId: string): Promise<Log[]> {
+  return new Promise((resolve, reject) => {
+    client
+      .query({ query: GET_LOGS, variables: { spaceId } })
+      .then((result) => {
+        resolve(result.data.logs);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
