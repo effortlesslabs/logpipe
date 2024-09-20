@@ -2745,6 +2745,7 @@ __metadata:
     "@graphql-codegen/cli": ^5.0.0
     "@graphql-codegen/typescript": ^4.0.0
     "@graphql-codegen/typescript-resolvers": ^4.0.0
+    "@logpipe/logger": "*"
     "@luckycatfactory/esbuild-graphql-loader": ^3.8.1
     "@types/cors": ^2.8.17
     "@types/debug": ^4.1.12

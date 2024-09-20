@@ -29,6 +29,12 @@ export default function Logs({ spaceId }: { spaceId: string }) {
   const table = useReactTable({
     data: logs,
     columns,
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: 20,
+      },
+    },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
@@ -42,6 +48,7 @@ export default function Logs({ spaceId }: { spaceId: string }) {
 
   const fetchLogs = useCallback(async () => {
     try {
+      setLoading(true);
       const logs = await getLogsApi(spaceId);
       setLogs(logs);
       setLoading(false);
@@ -58,25 +65,25 @@ export default function Logs({ spaceId }: { spaceId: string }) {
   return (
     <div className="flex bg-background flex-grow">
       {!toggleFilters && <Sidebar />}
-      <div className="p-5 w-full">
-        <div className="flex flex-col gap-2">
-          <Filters
-            table={table}
-            toggleFilters={toggleFilters}
-            setToggleFilters={setToggleFilters}
-          />
-          <Table
-            table={table}
-            columnsCount={columns.length}
-            loading={loading}
-            error={error}
-          />
-          <Pagination
-            getCanPreviousPage={table.getCanPreviousPage}
-            handleNextPage={table.previousPage}
-            handlePreviousPage={table.nextPage}
-          />
-        </div>
+      <div className="flex flex-col gap-5 w-full">
+        <Filters
+          loading={loading}
+          table={table}
+          toggleFilters={toggleFilters}
+          setToggleFilters={setToggleFilters}
+          refetch={fetchLogs}
+        />
+        <Table
+          table={table}
+          columnsCount={columns.length}
+          loading={loading}
+          error={error}
+        />
+        <Pagination
+          getCanPreviousPage={table.getCanPreviousPage}
+          handleNextPage={table.previousPage}
+          handlePreviousPage={table.nextPage}
+        />
       </div>
     </div>
   );
