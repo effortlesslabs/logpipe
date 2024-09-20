@@ -15,6 +15,7 @@
     "@apollo/subgraph": "^2.9.0",
     "@as-integrations/aws-lambda": "^3.1.0",
     "@graphql-codegen/cli": "^5.0.2",
+    "@logpipe/logger": "*",
     "@luckycatfactory/esbuild-graphql-loader": "^3.8.1",
     "@types/jsonwebtoken": "^9.0.6",
     "apollo-server-lambda": "^3.13.0",

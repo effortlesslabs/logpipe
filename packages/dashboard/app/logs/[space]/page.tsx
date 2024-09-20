@@ -2,15 +2,13 @@
 
 import Layouts from "@/components/layouts";
 import Logs from "@/components/logs";
-import Sidebar from "@/components/logs/sidebar";
+import { useParams } from "next/navigation";
 
 export default function Home() {
+  const { space } = useParams();
   return (
     <Layouts>
-      <div className="flex bg-background flex-grow">
-        <Sidebar />
-        <Logs />
-      </div>
+      <Logs spaceId={space as string} />
     </Layouts>
   );
 }

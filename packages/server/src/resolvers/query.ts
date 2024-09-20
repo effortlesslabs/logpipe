@@ -44,7 +44,7 @@ export const Query: Resolvers = {
     }),
 
     logs: withAuthGuard(async ({ profileId }) => {
-      return await Log.find({ profileId });
+      return await Log.find({ profileId }).sort({ createdAt: -1 }).limit(100);
     }),
   },
 };

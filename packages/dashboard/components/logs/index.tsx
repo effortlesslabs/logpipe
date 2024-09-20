@@ -1,22 +1,90 @@
-// import { useQuery } from "@apollo/client";
+import { useCallback, useEffect, useState } from "react";
+import { ApolloError } from "@apollo/client";
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  ColumnFiltersState,
+  getFilteredRowModel,
+  useReactTable,
+  VisibilityState,
+} from "@tanstack/react-table";
 
-// import { GET_LOGS } from "@/graphql/log";
-// import { Log } from "@/types/log";
-// import LogsTable from "./table/old_index";
-import DemoPage from "./table";
+import { Log } from "@/types/log";
+import { getLogsApi } from "@/graphql/log";
 
-function Logs() {
-  // const { data, loading, error } = useQuery(GET_LOGS, {
-  //   variables: { spaceId: "66e9656d7d998ff29c479bc4" },
-  //   fetchPolicy: "cache-and-network",
-  // });
+import { columns } from "./columns";
+import { Table } from "./table";
+import Sidebar from "./sidebar";
+import { Filters } from "./filters";
+import { Pagination } from "./pagination";
 
-  // console.log(data, error);
+export default function Logs({ spaceId }: { spaceId: string }) {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [logs, setLogs] = useState<Log[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<ApolloError | undefined>();
+  const [toggleFilters, setToggleFilters] = useState(false);
 
-  // const logs = (data?.logs as Log[]) || [];
+  const table = useReactTable({
+    data: logs,
+    columns,
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: 20,
+      },
+    },
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    state: {
+      columnFilters,
+      columnVisibility,
+    },
+  });
 
-  // return <LogsTable loading={loading} logs={logs} error={error} />;
-  return <DemoPage />;
+  const fetchLogs = useCallback(async () => {
+    try {
+      setLoading(true);
+      const logs = await getLogsApi(spaceId);
+      setLogs(logs);
+      setLoading(false);
+    } catch (error: any) {
+      setLoading(false);
+      setError(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchLogs();
+  }, [fetchLogs]);
+
+  return (
+    <div className="flex bg-background flex-grow">
+      {!toggleFilters && <Sidebar />}
+      <div className="flex flex-col gap-5 w-full">
+        <Filters
+          loading={loading}
+          table={table}
+          toggleFilters={toggleFilters}
+          setToggleFilters={setToggleFilters}
+          refetch={fetchLogs}
+        />
+        <Table
+          table={table}
+          columnsCount={columns.length}
+          loading={loading}
+          error={error}
+        />
+        <Pagination
+          getCanPreviousPage={table.getCanPreviousPage}
+          handleNextPage={table.previousPage}
+          handlePreviousPage={table.nextPage}
+        />
+      </div>
+    </div>
+  );
 }
-
-export default Logs;

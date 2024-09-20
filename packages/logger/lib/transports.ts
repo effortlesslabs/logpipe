@@ -11,8 +11,11 @@ function createLog(
   url: string,
   apiKey: string,
   level: string,
-  message: string
+  message: string,
+  data: string
 ) {
+  //TODO: Pass data to the server
+
   return fetch(url, {
     method: "POST",
     headers: {
@@ -51,7 +54,9 @@ class PipeTransport extends Transport {
       this.emit("logged", info);
     });
 
-    createLog(this.uri, this.apiKey, info.level, info.message)
+    const extraData = info.data ? JSON.stringify(info.data) : "";
+
+    createLog(this.uri, this.apiKey, info.level, info.message, extraData)
       .then(() => {
         next();
       })
