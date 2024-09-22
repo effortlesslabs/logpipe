@@ -4,29 +4,23 @@ import Space from "../database/space";
 import Log from "../database/log";
 import Profile from "../database/profile";
 import sendMagicLink from "../utils/sendMagicLink";
-import { withAuthGuard } from "../utils/auth";
+import { generateMagicLinkToken, withAuthGuard } from "../utils/auth";
 
 export const Mutation: Resolvers = {
   Mutation: {
     async magicLink(_, { email }) {
-      const randomCode = generateApiKey({
-        length: 20,
-        prefix: "code",
-      }).toString();
       const profile = await Profile.findOne({ email });
 
       if (profile) {
-        profile.authCode = randomCode;
         await profile.save();
       } else {
         await new Profile({
           name: "Anonymous",
           email,
-          authCode: randomCode,
         }).save();
       }
-
-      await sendMagicLink({ to: email, authCode: randomCode });
+      const authCode = await generateMagicLinkToken(email);
+      await sendMagicLink({ to: email, authCode: authCode });
       return true;
     },
     createSpace: withAuthGuard(async ({ profileId }, { input }) => {

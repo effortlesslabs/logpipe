@@ -1,9 +1,11 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+
 import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
 import { connectDatabase } from "./utils/connectDatabase";
 import { verifyJwtToken, verifyApiKey } from "./utils/auth";
+import loggingPlugin from "./utils/loggingPlugin";
 
 const mongoDbUri = process.env.MONGO_DB_URI as string;
 
@@ -12,6 +14,7 @@ connectDatabase(mongoDbUri);
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  plugins: [loggingPlugin()],
 });
 
 startStandaloneServer(server, {

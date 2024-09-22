@@ -2,6 +2,7 @@ import AWS from "aws-sdk";
 
 const accessKey = process.env.SES_AWS_ACCESS_KEY_ID;
 const secretKey = process.env.SES_AWS_SECRET_ACCESS_KEY;
+const magicLinkUrl = process.env.MAGIC_LINK_URL;
 
 AWS.config.update({
   region: "ap-southeast-1",
@@ -35,12 +36,18 @@ async function sendMagicLink(options: Options) {
   const subject = "Your OTP to Login and Use Dobbee";
 
   const htmlBody = `
-        <p>Dear Master!,</p>
-        <p>Dobbee is very honored to help you today! To keep everything safe and secure, Dobbee has generated a special One-Time Password (OTP) just for you.<br/> Please use this OTP to log in and start using Dobbee:</p>
-        <p><strong>Your OTP: ${options.authCode}</strong></p>
-        <p>This OTP is valid for the next 10 minutes, so please be quick, master! If you did not request this, please do not worry; your account is still safe and sound.<br/> Dobbee is always here to help with any questions or concerns.</p>
-        <p>Thank you for trusting Dobbee! It is always a pleasure to assist you.</p>
-        <p>With utmost loyalty,<br>Dobbee, Your Humble AI Assistant</p>
+        <p>Hi!,</p>
+        <br></br>
+        <p>We hope you're doing well!</p>
+        <br></br>
+        <p>To securely access your account, please use the login link below:</p>
+        <br></br>
+        <a href="${magicLinkUrl}/verify/${options.authCode}">Click here to login</a>
+        <br></br>
+        <p>For your security, this link will expire in 10 minutes and can only be used once.</p>
+        <p>If you didn't request this link, please ignore this email or contact us for assistance.</p>
+        <br></br>
+        <p>Best Regards</p>
 
     `;
 
