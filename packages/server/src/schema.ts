@@ -38,7 +38,7 @@ export const typeDefs = gql`
 
   input SpaceInput {
     name: String!
-    schema: String!
+    schema: String
     description: String
   }
 

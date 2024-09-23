@@ -2,9 +2,12 @@
 
 import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@apollo/client";
+import { useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { CREATE_SPACE, GET_SPACES } from "@/graphql/space";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/hooks/use-toast";
 import {
   Form,
   FormControl,
@@ -26,6 +29,8 @@ const FormSchema = z.object({
 });
 
 export function InputForm() {
+  const router = useRouter();
+  const [createSpace, { loading, error }] = useMutation(CREATE_SPACE);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -34,11 +39,22 @@ export function InputForm() {
     },
   });
 
-  function onSubmit() {
-    toast({
-      title: "New Space Created Successfully",
-    });
-  }
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof FormSchema>) => {
+      try {
+        const response = await createSpace({
+          variables: { input: data },
+          refetchQueries: [GET_SPACES],
+        });
+        if (response?.data) {
+          router.push("/spaces");
+        }
+      } catch (error) {
+        console.error("Error creating space:", error);
+      }
+    },
+    [createSpace, router]
+  );
 
   return (
     <Form {...form}>
@@ -75,7 +91,14 @@ export function InputForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? "Creating..." : "Submit"}
+        </Button>
+        {error && (
+          <div className="text-red-500 font-thin text-center">
+            {error.message}
+          </div>
+        )}
       </form>
     </Form>
   );
