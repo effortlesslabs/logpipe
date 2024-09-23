@@ -41,13 +41,11 @@ function ProfileMenu() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => router.push("/settings/general")}>
-          General
+        <DropdownMenuItem onClick={() => router.push("/spaces")}>
+          Spaces
         </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => router.push("/settings/profile-settings")}
-        >
-          Profile Settings
+        <DropdownMenuItem onClick={() => router.push("/settings")}>
+          Settings
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         {/* <DropdownMenuItem onClick={() => setCurrentComponent(null)}>

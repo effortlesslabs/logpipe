@@ -136,7 +136,7 @@ export type Space = {
 export type SpaceInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  schema: Scalars['String']['input'];
+  schema?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
