@@ -32,8 +32,15 @@ export const typeDefs = gql`
   }
 
   type ApiKey {
+    id: String
     name: String
     key: String
+  }
+
+  type ApiKeys {
+    spaceName: String
+    keyName: String
+    keyId: String
   }
 
   input SpaceInput {
@@ -57,6 +64,7 @@ export const typeDefs = gql`
     space(id: ID!): Space
     logs(spaceId: ID!): [Log!]!
     validateMagicLink(code: String!): AuthResponse
+    getApiKeys: [ApiKeys!]!
     profile: Profile
   }
 
@@ -67,5 +75,7 @@ export const typeDefs = gql`
     createLog(input: LogInput!): Boolean
     magicLink(email: String!): Boolean!
     generateApiKey(input: ApiKeyInput!): ApiKey!
+    refreshJWTToken(refreshToken: String!): AuthResponse
+    deleteApiKey(id: String): Boolean
   }
 `;
