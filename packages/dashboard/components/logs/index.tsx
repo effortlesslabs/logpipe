@@ -14,7 +14,7 @@ import { getLogsApi } from "@/graphql/log";
 
 import { columns } from "./columns";
 import { Table } from "./table";
-import Sidebar from "./sidebar";
+import Sidebar from "./sidebar/sidebar";
 import { Filters } from "./filters";
 import { Pagination } from "./pagination";
 

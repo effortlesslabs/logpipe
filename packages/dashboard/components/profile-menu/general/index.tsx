@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { GET_PROFILE } from "@/graphql/profile";
 import { useQuery } from "@apollo/client";
 import { Badge } from "@/components/ui/badge";
-import CopyButton from "@/components/copybutton";
+import CopyButton from "@/components/copy-button";
 
 function General() {
   const { data } = useQuery(GET_PROFILE);

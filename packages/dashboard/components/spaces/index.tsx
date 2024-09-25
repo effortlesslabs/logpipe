@@ -13,7 +13,7 @@ export default function Spaces() {
 
   const handleCreateSpace = async () => {
     setLoading(true);
-    router.push("/createspace");
+    router.push("/create-space");
   };
 
   return (

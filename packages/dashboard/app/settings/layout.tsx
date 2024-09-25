@@ -26,7 +26,7 @@ function SettingsLayout({ children }: SettingsSidebarProps) {
           <aside className="-mx-4 lg:w-1/5">
             <SidebarNav items={items} />
           </aside>
-          <div className="flex-1 lg:max-w-2xl">{children}</div>
+          <div className="flex w-2/3">{children}</div>
         </div>
       </div>
     </Layouts>
