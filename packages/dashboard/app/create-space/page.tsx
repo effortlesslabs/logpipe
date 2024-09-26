@@ -1,7 +1,7 @@
 "use client";
 
+import CreateSpace from "@/components/create-space";
 import Layouts from "@/components/layouts";
-import CreateSpace from "@/components/createspace";
 
 function Home() {
   return (
