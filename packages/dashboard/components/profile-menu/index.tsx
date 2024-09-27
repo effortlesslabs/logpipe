@@ -19,17 +19,16 @@ function ProfileMenu() {
   const router = useRouter();
   const { data } = useQuery(GET_PROFILE);
   const clearProfile = useProfileStore((state) => state.clearProfile);
-  const profile = useProfileStore((state) => state.profile);
+  // const profile = useProfileStore((state) => state.profile);
 
-  if (!profile) {
-    return null; // or you can return a loading state or alternative UI if needed
-  }
-  const handleLogout = () => {
+  // if (profile === null) {
+  //   return router.push("/login"); // or you can return a loading state or alternative UI if needed
+  // }
+  const handleLogout = async () => {
     try {
       clearProfile();
       localStorage.clear();
       sessionStorage.clear();
-
       router.push("/login");
     } catch (error) {
       console.error("Error logging out:", error);

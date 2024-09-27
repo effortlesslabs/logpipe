@@ -1,5 +1,6 @@
-import { Profile } from "@/types/profile";
+import Cookies from "js-cookie";
 import { create } from "zustand";
+import { Profile } from "@/types/profile";
 
 interface ProfileState {
   profile: Profile | null;
@@ -9,6 +10,12 @@ interface ProfileState {
 
 export const useProfileStore = create<ProfileState>((set) => ({
   profile: null,
-  setProfile: (profile) => set({ profile }),
-  clearProfile: () => set({ profile: null }),
+  setProfile: (profile) => {
+    set({ profile });
+    Cookies.set("profile", JSON.stringify(profile));
+  },
+  clearProfile: () => {
+    set({ profile: null });
+    Cookies.remove("profile");
+  },
 }));
