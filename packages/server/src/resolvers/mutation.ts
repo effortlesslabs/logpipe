@@ -85,5 +85,15 @@ export const Mutation: Resolvers = {
       );
       return apiKey;
     }),
+
+    updateProfile: withAuthGuard(async ({ profileId }, { input }) => {
+      const profile = await Profile.findOne({ _id: profileId });
+      if (!profile) {
+        throw new Error("Profile not found");
+      }
+      profile.set({ ...input });
+      await profile.save();
+      return profile;
+    }),
   },
 };

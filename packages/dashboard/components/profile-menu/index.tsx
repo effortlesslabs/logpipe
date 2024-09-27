@@ -1,7 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useProfileStore } from "@/zustand";
+import { useQuery } from "@apollo/client";
+import { GET_PROFILE } from "@/graphql/profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,10 +14,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 
 function ProfileMenu() {
   const router = useRouter();
+  const { data } = useQuery(GET_PROFILE);
+  const clearProfile = useProfileStore((state) => state.clearProfile);
+  const profile = useProfileStore((state) => state.profile);
+
+  if (!profile) {
+    return null; // or you can return a loading state or alternative UI if needed
+  }
+  const handleLogout = () => {
+    try {
+      clearProfile();
+      localStorage.clear();
+      sessionStorage.clear();
+
+      router.push("/login");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -34,9 +55,11 @@ function ProfileMenu() {
       >
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">shadcn</p>
+            <p className="text-sm font-medium leading-none">
+              {data?.profile.name}
+            </p>
             <p className="text-xs leading-none text-muted-foreground">
-              m@example.com
+              {data?.profile.email}
             </p>
           </div>
         </DropdownMenuLabel>
@@ -48,9 +71,7 @@ function ProfileMenu() {
           Settings
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        {/* <DropdownMenuItem onClick={() => setCurrentComponent(null)}>
-          Log out
-        </DropdownMenuItem> */}
+        <DropdownMenuItem onClick={handleLogout}>Log Out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

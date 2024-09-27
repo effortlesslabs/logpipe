@@ -67,6 +67,7 @@ export type Mutation = {
   generateApiKey: ApiKey;
   magicLink: Scalars['Boolean']['output'];
   refreshJWTToken?: Maybe<AuthResponse>;
+  updateProfile?: Maybe<Profile>;
   updateSpace: Space;
 };
 
@@ -106,6 +107,11 @@ export type MutationRefreshJwtTokenArgs = {
 };
 
 
+export type MutationUpdateProfileArgs = {
+  input: ProfileInput;
+};
+
+
 export type MutationUpdateSpaceArgs = {
   id: Scalars['ID']['input'];
   input: SpaceInput;
@@ -117,6 +123,10 @@ export type Profile = {
   id: Scalars['ID']['output'];
   image: Scalars['String']['output'];
   name: Scalars['String']['output'];
+};
+
+export type ProfileInput = {
+  name: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -243,6 +253,7 @@ export type ResolversTypes = ResolversObject<{
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Profile: ResolverTypeWrapper<Profile>;
+  ProfileInput: ProfileInput;
   Query: ResolverTypeWrapper<{}>;
   Space: ResolverTypeWrapper<Space>;
   SpaceInput: SpaceInput;
@@ -261,6 +272,7 @@ export type ResolversParentTypes = ResolversObject<{
   Mutation: {};
   Boolean: Scalars['Boolean']['output'];
   Profile: Profile;
+  ProfileInput: ProfileInput;
   Query: {};
   Space: Space;
   SpaceInput: SpaceInput;
@@ -304,6 +316,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   generateApiKey?: Resolver<ResolversTypes['ApiKey'], ParentType, ContextType, RequireFields<MutationGenerateApiKeyArgs, 'input'>>;
   magicLink?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationMagicLinkArgs, 'email'>>;
   refreshJWTToken?: Resolver<Maybe<ResolversTypes['AuthResponse']>, ParentType, ContextType, RequireFields<MutationRefreshJwtTokenArgs, 'refreshToken'>>;
+  updateProfile?: Resolver<Maybe<ResolversTypes['Profile']>, ParentType, ContextType, RequireFields<MutationUpdateProfileArgs, 'input'>>;
   updateSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceArgs, 'id' | 'input'>>;
 }>;
 

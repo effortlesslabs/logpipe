@@ -59,6 +59,10 @@ export const typeDefs = gql`
     name: String!
   }
 
+  input ProfileInput {
+    name: String!
+  }
+
   type Query {
     spaces: [Space!]!
     space(id: ID!): Space
@@ -77,5 +81,6 @@ export const typeDefs = gql`
     generateApiKey(input: ApiKeyInput!): ApiKey!
     refreshJWTToken(refreshToken: String!): AuthResponse
     deleteApiKey(id: String): Boolean
+    updateProfile(input: ProfileInput!): Profile
   }
 `;
