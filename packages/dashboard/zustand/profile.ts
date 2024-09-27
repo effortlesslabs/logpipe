@@ -8,14 +8,18 @@ interface ProfileState {
   clearProfile: () => void;
 }
 
-export const useProfileStore = create<ProfileState>((set) => ({
-  profile: null,
-  setProfile: (profile) => {
-    set({ profile });
-    Cookies.set("profile", JSON.stringify(profile));
-  },
-  clearProfile: () => {
-    set({ profile: null });
-    Cookies.remove("profile");
-  },
-}));
+export const useProfileStore = create<ProfileState>((set) => {
+  // Retrieve the profile from cookies if it exists
+  const savedProfile = Cookies.get("profile");
+  return {
+    profile: savedProfile ? JSON.parse(savedProfile) : null,
+    setProfile: (profile) => {
+      set({ profile });
+      Cookies.set("profile", JSON.stringify(profile));
+    },
+    clearProfile: () => {
+      set({ profile: null });
+      Cookies.remove("profile");
+    },
+  };
+});
