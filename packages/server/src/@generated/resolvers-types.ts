@@ -134,6 +134,7 @@ export type Query = {
   getApiKeys: Array<ApiKeys>;
   logs: Array<Log>;
   profile?: Maybe<Profile>;
+  recentLogs: Array<Log>;
   space?: Maybe<Space>;
   spaces: Array<Space>;
   validateMagicLink?: Maybe<AuthResponse>;
@@ -332,6 +333,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   getApiKeys?: Resolver<Array<ResolversTypes['ApiKeys']>, ParentType, ContextType>;
   logs?: Resolver<Array<ResolversTypes['Log']>, ParentType, ContextType, RequireFields<QueryLogsArgs, 'spaceId'>>;
   profile?: Resolver<Maybe<ResolversTypes['Profile']>, ParentType, ContextType>;
+  recentLogs?: Resolver<Array<ResolversTypes['Log']>, ParentType, ContextType>;
   space?: Resolver<Maybe<ResolversTypes['Space']>, ParentType, ContextType, RequireFields<QuerySpaceArgs, 'id'>>;
   spaces?: Resolver<Array<ResolversTypes['Space']>, ParentType, ContextType>;
   validateMagicLink?: Resolver<Maybe<ResolversTypes['AuthResponse']>, ParentType, ContextType, RequireFields<QueryValidateMagicLinkArgs, 'code'>>;

@@ -70,6 +70,7 @@ export const typeDefs = gql`
     validateMagicLink(code: String!): AuthResponse
     getApiKeys: [ApiKeys!]!
     profile: Profile
+    recentLogs: [Log!]!
   }
 
   type Mutation {

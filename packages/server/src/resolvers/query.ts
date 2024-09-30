@@ -48,6 +48,14 @@ export const Query: Resolvers = {
         .sort({ createdAt: -1 })
         .limit(100);
     }),
+
+    recentLogs: withAuthGuard(async ({ profileId }) => {
+      const logs = await Log.find({ profileId })
+        .sort({ createdAt: -1 })
+        .limit(50);
+      return logs;
+    }),
+
     getApiKeys: withAuthGuard(async ({ profileId }) => {
       const spaces = await Space.find({ profileId });
       const keys: { spaceName: string; keyName: string; keyId: string }[] = [];

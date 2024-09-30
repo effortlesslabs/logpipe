@@ -33,3 +33,4 @@ generated-schema.graphql
 .env
 .serverless
 .next
+.feature
