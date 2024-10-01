@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
@@ -8,6 +8,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@apollo/client";
 import { CREATE_SPACE, GET_SPACES } from "@/graphql/space";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -18,6 +26,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import CreateApiDialog from "./create-api-dialouge";
 
 const FormSchema = z.object({
   name: z.string().min(3, {
@@ -30,7 +39,13 @@ const FormSchema = z.object({
 
 export function InputForm() {
   const router = useRouter();
-  const [createSpace, { loading, error }] = useMutation(CREATE_SPACE);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [spaceId, setSpaceId] = useState("");
+  const [createSpace, { loading, error }] = useMutation(CREATE_SPACE, {
+    onCompleted: (data) => {
+      setSpaceId(data.createSpace.id);
+    },
+  });
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -47,13 +62,13 @@ export function InputForm() {
           refetchQueries: [GET_SPACES],
         });
         if (response?.data) {
-          router.push("/spaces");
+          setIsDialogOpen(true);
         }
       } catch (error) {
         console.error("Error creating space:", error);
       }
     },
-    [createSpace, router]
+    [createSpace]
   );
 
   return (
@@ -100,6 +115,32 @@ export function InputForm() {
           </div>
         )}
       </form>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="w-auto sm:max-w-lg h-auto p-6">
+          <DialogHeader>
+            <DialogTitle>Space Created</DialogTitle>
+            <DialogDescription>
+              Your space has been successfully created.
+              <br />
+              You can now create an API key for this space.
+            </DialogDescription>
+          </DialogHeader>
+          <div>
+            <CreateApiDialog spaceId={spaceId} />
+          </div>
+
+          <DialogFooter className="flex justify-between w-full">
+            <Button
+              onClick={() => {
+                setIsDialogOpen(false);
+                router.push("/spaces");
+              }}
+            >
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Form>
   );
 }
