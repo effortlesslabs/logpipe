@@ -52,7 +52,7 @@ export const Query: Resolvers = {
     recentLogs: withAuthGuard(async ({ profileId }) => {
       const logs = await Log.find({ profileId })
         .sort({ createdAt: -1 })
-        .limit(50);
+        .limit(15);
       return logs;
     }),
 

@@ -13,6 +13,18 @@ export const GET_LOGS = gql`
   }
 `;
 
+export const RECENT_LOGS = gql`
+  query RecentLogs {
+    recentLogs {
+      id
+      spaceId
+      message
+      level
+      createdAt
+    }
+  }
+`;
+
 export async function getLogsApi(spaceId: string): Promise<Log[]> {
   return new Promise((resolve, reject) => {
     client
