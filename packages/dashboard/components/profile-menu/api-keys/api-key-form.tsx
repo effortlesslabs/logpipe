@@ -1,6 +1,5 @@
 "use client";
 
-import { ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -115,6 +114,7 @@ function ApiKeyForm() {
                         <Input
                           className="w-96 cursor-pointer"
                           placeholder="Select Space"
+                          {...field}
                           value={selectedSpace?.name || "Select Space"}
                           readOnly
                         />
