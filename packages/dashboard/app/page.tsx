@@ -1,5 +1,6 @@
 "use client";
 
+import Balancer from "react-wrap-balancer";
 import Link from "next/link";
 import Layouts from "@/components/layouts";
 import { Button } from "@/components/ui/button";
@@ -13,22 +14,24 @@ const secondaryButton = "Access";
 export default function Home() {
   return (
     <Layouts>
-      <div className="h-screen flex justify-center items-center flex-col p-4">
+      <div className="h-screen flex justify-center items-center flex-col p-10">
         <div className="flex flex-col gap-2">
-          <h1 className="text-4xl md:text-6xl lg:text-[100px] text-center font-semibold">
+          <h1 className=" text-6xl  md:text-8xl text-center font-semibold">
             {title}
           </h1>
           <p className="text-sm md:text-lg lg:text-xl text-center h-24 mt-4 text-muted-foreground">
-            {description}
+            <Balancer ratio={0.0} preferNative={false}>
+              {description}
+            </Balancer>
           </p>
         </div>
-        <div className="flex justify-center items-center gap-2">
+        <div className="flex justify-center items-center gap-4">
           <Link href="/docs/get-started">
-            <Button className="w-full flex-1">{primaryButton}</Button>
+            <Button className="w-36 flex-1">{primaryButton}</Button>
           </Link>
 
           <Link href="/login">
-            <Button variant="secondary" className="w-full flex-1">
+            <Button variant="secondary" className="w-36 flex-1">
               {secondaryButton}
             </Button>
           </Link>
