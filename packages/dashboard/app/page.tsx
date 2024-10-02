@@ -1,34 +1,37 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Layouts from "@/components/layouts";
 import { Button } from "@/components/ui/button";
 
+const title = "Gen LogPipe";
+const description =
+  "Next-Generation Logger, Tracer, and Metrics Components for Rapid AI & Blockchain App Creation";
+const primaryButton = "Get Started";
+const secondaryButton = "Access";
+
 export default function Home() {
-  const router = useRouter();
   return (
     <Layouts>
       <div className="h-screen flex justify-center items-center flex-col p-4">
-        <h1 className="font-semibold text-4xl md:text-6xl lg:text-[100px] text-center">
-          Gen Log Pipe
-        </h1>
-        <p className="text-lg md:text-xl lg:text-2xl text-center h-24 mt-4">
-          Next-Generation Logger, Tracer, and Metrics Components for Rapid AI &
-          Blockchain App Creation
-        </p>
-        <div className="flex flex-col md:flex-row w-full md:w-56 justify-between mt-8 space-y-4 md:space-y-0">
-          <Button
-            onClick={() => router.push("/docs/get-started")}
-            className="w-full md:w-auto"
-          >
-            Get Started
-          </Button>
-          <Button
-            onClick={() => router.push("/login")}
-            className="w-full md:w-auto"
-          >
-            Access
-          </Button>
+        <div className="flex flex-col gap-2">
+          <h1 className="text-4xl md:text-6xl lg:text-[100px] text-center font-semibold">
+            {title}
+          </h1>
+          <p className="text-sm md:text-lg lg:text-xl text-center h-24 mt-4 text-muted-foreground">
+            {description}
+          </p>
+        </div>
+        <div className="flex justify-center items-center gap-2">
+          <Link href="/docs/get-started">
+            <Button className="w-full flex-1">{primaryButton}</Button>
+          </Link>
+
+          <Link href="/login">
+            <Button variant="secondary" className="w-full flex-1">
+              {secondaryButton}
+            </Button>
+          </Link>
         </div>
       </div>
     </Layouts>
