@@ -23,7 +23,7 @@ function ApiKeyDisplayDialog({
   const open = generatedKey && generatedKey.length > 0 ? true : false;
   console.log("key", generatedKey);
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={() => onClose()}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>API Key Generated</DialogTitle>

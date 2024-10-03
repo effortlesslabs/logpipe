@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import ApiKeyForm from "./form";
-import ApiKeyList from "./api-key-list";
+import ApiKeyList from "./list";
 
 import ApiKeyDisplayDialog from "./dialog";
 

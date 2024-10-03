@@ -55,9 +55,6 @@ function ProfileMenu() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/spaces">Spaces</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
           <Link href="/settings">Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

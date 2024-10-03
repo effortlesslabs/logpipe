@@ -19,6 +19,16 @@ function Header() {
             </span>
             <span className="hidden lg:inline-block">Logpipe</span>
           </Link>
+          <Link href={logged ? "/spaces" : "/"} passHref>
+            <Button variant="link" className="text-muted-foreground">
+              Spaces
+            </Button>
+          </Link>
+          <Link href="/docs" passHref>
+            <Button variant="link" className="text-muted-foreground">
+              Docs
+            </Button>
+          </Link>
         </div>
         <div className="flex justify-end">
           <Button variant="outline" className="text-muted-foreground">
@@ -26,9 +36,6 @@ function Header() {
           </Button>
           <Button variant="link" className="text-muted-foreground">
             Changelog
-          </Button>
-          <Button variant="link" className="text-muted-foreground">
-            Docs
           </Button>
           <Button variant="link" className="text-muted-foreground">
             Support
