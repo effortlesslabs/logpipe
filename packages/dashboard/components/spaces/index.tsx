@@ -1,40 +1,23 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Loader } from "lucide-react";
 import RecentLogs from "./logs";
 import SpaceList from "./lists";
+import { Input } from "../ui/input";
 
 export default function Spaces() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-
-  const handleCreateSpace = async () => {
-    setLoading(true);
-    router.push("/create-space");
-  };
-
   return (
-    <div className="flex flex-col gap-5 h-full p-5">
-      <div className="flex justify-between items-center">
-        <div className="flex-col gap-2">
-          <h1 className="text-2xl font-bold">Hello there</h1>
-          <p className="text-foreground/40">
-            No hassles, just quick and easy access to get started now!
-          </p>
+    <div className="container flex flex-col gap-5 h-full p-5">
+      <div className="flex justify-between items-center gap-5">
+        <div className="flex-col gap-2 flex-grow">
+          <Input placeholder="Search Spaces" />
         </div>
-        <Button
-          variant="outline"
-          onClick={handleCreateSpace}
-          disabled={loading}
-        >
-          {loading ? <Loader /> : "Create Space"}
-        </Button>
+        <Link href="/create-space">
+          <Button>Create Space</Button>
+        </Link>
       </div>
-
-      <div className="flex flex-grow gap-10">
+      <div className="flex flex-col md:flex-row flex-grow gap-10">
         <RecentLogs />
         <SpaceList />
       </div>

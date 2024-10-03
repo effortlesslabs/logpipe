@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useState } from "react";
 import { ApolloError } from "@apollo/client";
 import {
@@ -52,18 +53,18 @@ export default function Logs({ spaceId }: { spaceId: string }) {
       const logs = await getLogsApi(spaceId);
       setLogs(logs);
       setLoading(false);
-    } catch (error: any) {
+    } catch (error: ApolloError | any) {
       setLoading(false);
       setError(error);
     }
-  }, []);
+  }, [spaceId]);
 
   useEffect(() => {
     fetchLogs();
   }, [fetchLogs]);
 
   return (
-    <div className="flex bg-background flex-grow">
+    <div className="flex bg-background flex-grow border-t">
       {!toggleFilters && <Sidebar />}
       <div className="flex flex-col gap-5 w-full">
         <Filters

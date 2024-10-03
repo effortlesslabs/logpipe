@@ -1,6 +1,6 @@
-import Cookies from "js-cookie";
-import { create } from "zustand";
+import { create, StateCreator } from "zustand";
 import { Profile } from "@/types/profile";
+import { persist, PersistOptions, createJSONStorage } from "zustand/middleware";
 
 interface ProfileState {
   profile: Profile | null;
@@ -8,18 +8,25 @@ interface ProfileState {
   clearProfile: () => void;
 }
 
-export const useProfileStore = create<ProfileState>((set) => {
-  // Retrieve the profile from cookies if it exists
-  const savedProfile = Cookies.get("profile");
-  return {
-    profile: savedProfile ? JSON.parse(savedProfile) : null,
-    setProfile: (profile) => {
-      set({ profile });
-      Cookies.set("profile", JSON.stringify(profile));
-    },
-    clearProfile: () => {
-      set({ profile: null });
-      Cookies.remove("profile");
-    },
-  };
-});
+type ProfileStatePersist = (
+  config: StateCreator<ProfileState>,
+  options: PersistOptions<ProfileState>
+) => StateCreator<ProfileState>;
+
+export const useProfileStore = create<ProfileState>(
+  (persist as ProfileStatePersist)(
+    (set) => ({
+      profile: null,
+      setProfile: (profile) => {
+        set({ profile });
+      },
+      clearProfile: () => {
+        set({ profile: null });
+      },
+    }),
+    {
+      name: "profile-storage",
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);

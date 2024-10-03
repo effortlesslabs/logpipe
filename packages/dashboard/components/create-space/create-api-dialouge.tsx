@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { GENERATE_API_KEY } from "@/graphql/api";
-import ApiKeyDisplayDialog from "../profile-menu/api-keys/api-key-alert";
+import ApiKeyDisplayDialog from "../profile-menu/api-keys/dialog";
 import {
   Form,
   FormControl,

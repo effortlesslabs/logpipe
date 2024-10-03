@@ -17,7 +17,7 @@ export default function SpaceList() {
 
   return (
     <div className="text-md w-full lg:w-2/3 h-full flex flex-col gap-5">
-      <p className="font-semibold">Spaces</p>
+      <p className=" text-sm ml-2">Spaces</p>
 
       {error && <Error message={error.message} />}
 

@@ -7,10 +7,12 @@ import Loader from "./loader";
 import Success from "./success";
 import Error from "./error";
 import { AuthResponse } from "@/types/profile";
-import { useProfileStore } from "@/zustand";
+import { useGlobalStore, useProfileStore } from "@/zustand";
 
 export default function Verification({ code }: { code: string }) {
   const { setProfile } = useProfileStore();
+  const { setLogged } = useGlobalStore();
+
   const { data, loading, error } = useQuery(VALIDATE_MAGIC_LINK, {
     variables: { code },
     onCompleted({ validateMagicLink }: { validateMagicLink: AuthResponse }) {
@@ -21,6 +23,7 @@ export default function Verification({ code }: { code: string }) {
           "refreshJwtToken",
           validateMagicLink.refreshJwtToken
         );
+        setLogged(true);
       }
     },
   });

@@ -15,9 +15,9 @@ export default function RecentLogs() {
   });
 
   return (
-    <div className="text-md w-full lg:w-1/3 h-full flex flex-col gap-5 font-mono">
-      <p className="font-semibold">Recent Logs</p>
-      <Card className="w-full p-2 flex-grow flex justify-center items-start">
+    <div className="text-md w-full lg:w-1/3 h-full flex flex-col gap-5">
+      <p className="text-sm ml-2">Recent Logs</p>
+      <Card className="w-full p-2 flex-grow flex justify-center items-start font-mono">
         {data?.recentLogs?.length > 0 ? (
           <Table>
             <TableBody className="p-0">
@@ -50,7 +50,9 @@ export default function RecentLogs() {
             </TableBody>
           </Table>
         ) : (
-          <p>No logs found</p>
+          <div className="h-full flex justify-center items-center">
+            <p className=" text-muted-foreground text-sm">No logs found</p>
+          </div>
         )}
       </Card>
     </div>

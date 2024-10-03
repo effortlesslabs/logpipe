@@ -6,7 +6,9 @@ import Spaces from "@/components/spaces";
 export default function Home() {
   return (
     <Layouts>
-      <Spaces />
+      <div className="flex justify-center h-full">
+        <Spaces />
+      </div>
     </Layouts>
   );
 }
