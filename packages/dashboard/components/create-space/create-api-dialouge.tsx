@@ -23,12 +23,10 @@ const FormSchema = z.object({
 });
 
 function CreateApiDialog({ spaceId }: { spaceId: string }) {
-  const [alertOpen, setAlertOpen] = useState(false);
   const [apiKey, setApiKey] = useState<string | null>(null); // Store the generated API key
   const [generateApiKey, { loading, error }] = useMutation(GENERATE_API_KEY, {
     onCompleted: ({ generateApiKey }) => {
       setApiKey(generateApiKey.key); // Store the API key
-      setAlertOpen(true);
     },
   });
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -48,11 +46,10 @@ function CreateApiDialog({ spaceId }: { spaceId: string }) {
     <>
       {apiKey && (
         <ApiKeyDisplayDialog
-          item={apiKey}
-          open={alertOpen}
-          setOpen={setAlertOpen}
+          generatedKey={apiKey}
+          onClose={() => setApiKey(null)}
         />
-      )}{" "}
+      )}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
