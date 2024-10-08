@@ -16,26 +16,11 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import CreateApiDialog from "./create-api-dialouge";
-
-const FormSchema = z.object({
-  name: z.string().min(3, {
-    message: "Name must be at least 3 characters.",
-  }),
-  description: z.string().min(3, {
-    message: "Description must be at least 3 characters.",
-  }),
-});
+import { Form, FormField } from "@/components/ui/form";
+import CreateApiDialog from "../api-dialog";
+import ZodSpaceSchema from "./schema";
+import Name from "./name";
+import Description from "./description";
 
 export function InputForm() {
   const router = useRouter();
@@ -46,8 +31,8 @@ export function InputForm() {
       setSpaceId(data.createSpace.id);
     },
   });
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof ZodSpaceSchema>>({
+    resolver: zodResolver(ZodSpaceSchema),
     defaultValues: {
       name: "",
       description: "",
@@ -55,7 +40,7 @@ export function InputForm() {
   });
 
   const onSubmit = useCallback(
-    async (data: z.infer<typeof FormSchema>) => {
+    async (data: z.infer<typeof ZodSpaceSchema>) => {
       try {
         const response = await createSpace({
           variables: { input: data },
@@ -77,34 +62,12 @@ export function InputForm() {
         <FormField
           control={form.control}
           name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="space name" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is the name of the space you are creating.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => <Name field={field} />}
         />
         <FormField
           control={form.control}
           name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Input placeholder="space description" {...field} />
-              </FormControl>
-              <FormDescription>
-                Description about the space you are creating.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => <Description field={field} />}
         />
         <Button type="submit" disabled={loading}>
           {loading ? "Creating..." : "Submit"}

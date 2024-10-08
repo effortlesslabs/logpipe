@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@apollo/client";
 import { Loader as ILoader } from "lucide-react";
@@ -14,6 +14,13 @@ export default function SpaceList() {
   const router = useRouter();
   const { data, loading, error } = useQuery(GET_SPACES);
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [spacesLoaded, setSpacesLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!loading && data) {
+      setSpacesLoaded(true);
+    }
+  }, [loading, data]);
 
   return (
     <div className="text-md w-full lg:w-2/3 h-full flex flex-col gap-5">
@@ -21,9 +28,10 @@ export default function SpaceList() {
 
       {error && <Error message={error.message} />}
 
-      {!loading && data?.spaces.length > 0 ? (
+      {loading ? (
+        <Loader />
+      ) : spacesLoaded && data?.spaces.length > 0 ? (
         <div className="w-full grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-5">
-          {loading && <Loader />}
           {data.spaces.map((space: ISpace) => (
             <Space key={space.id} space={space} />
           ))}

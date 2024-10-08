@@ -1,26 +1,15 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { GENERATE_API_KEY } from "@/graphql/api";
-import ApiKeyDisplayDialog from "../profile-menu/api-keys/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import ApiKeyDisplayDialog from "@/components/profile-menu/api-keys/dialog";
+import { Form, FormField } from "@/components/ui/form";
+
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-
-const FormSchema = z.object({
-  name: z.string().min(3, {
-    message: "Name must be at least 3 characters.",
-  }),
-  spaceId: z.string(),
-});
+import CreateApiKeyFormSchema from "./schema";
+import Name from "./name";
 
 function CreateApiDialog({ spaceId }: { spaceId: string }) {
   const [apiKey, setApiKey] = useState<string | null>(null); // Store the generated API key
@@ -29,14 +18,14 @@ function CreateApiDialog({ spaceId }: { spaceId: string }) {
       setApiKey(generateApiKey.key); // Store the API key
     },
   });
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof CreateApiKeyFormSchema>>({
+    resolver: zodResolver(CreateApiKeyFormSchema),
     defaultValues: {
       name: "",
       spaceId,
     },
   });
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
+  const onSubmit = (data: z.infer<typeof CreateApiKeyFormSchema>) => {
     generateApiKey({
       variables: { input: data },
     });
@@ -58,14 +47,7 @@ function CreateApiDialog({ spaceId }: { spaceId: string }) {
           <FormField
             control={form.control}
             name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Name Of Api Key" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
+            render={({ field }) => <Name field={field} />}
           />
           <div>
             <Button type="submit" disabled={loading} variant={"outline"}>
