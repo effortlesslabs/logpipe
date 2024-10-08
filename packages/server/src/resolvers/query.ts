@@ -43,8 +43,32 @@ export const Query: Resolvers = {
       return await Space.findOne({ _id: id, profileId });
     }),
 
-    logs: withAuthGuard(async ({ profileId }) => {
-      return await Log.find({ profileId }).sort({ createdAt: -1 }).limit(100);
+    logs: withAuthGuard(async ({ profileId, spaceId }) => {
+      return await Log.find({ profileId, spaceId })
+        .sort({ createdAt: -1 })
+        .limit(100);
+    }),
+
+    recentLogs: withAuthGuard(async ({ profileId }) => {
+      const logs = await Log.find({ profileId })
+        .sort({ createdAt: -1 })
+        .limit(15);
+      return logs;
+    }),
+
+    getApiKeys: withAuthGuard(async ({ profileId }) => {
+      const spaces = await Space.find({ profileId });
+      const keys: { spaceName: string; keyName: string; keyId: string }[] = [];
+      spaces.map(async (space) => {
+        space.apiKeys.forEach((key) => {
+          keys.push({
+            spaceName: space.name,
+            keyName: key.name,
+            keyId: key._id,
+          });
+        });
+      });
+      return keys;
     }),
   },
 };

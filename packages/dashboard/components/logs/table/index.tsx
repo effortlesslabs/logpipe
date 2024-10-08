@@ -20,7 +20,7 @@ export function Table<T>({
   error,
 }: DataTableProps<T>) {
   return (
-    <div className="rounded border font-mono mx-5">
+    <div className="rounded border font-mono mx-5 flex-grow">
       <ShTable>
         <Header groups={table.getHeaderGroups()} />
         <Body

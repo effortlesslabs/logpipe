@@ -1,5 +1,5 @@
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import CopyButton from "@/components/copybutton";
+import CopyButton from "@/components/copy-button";
 
 function NodeExample() {
   const codeSnippet = `import { createLogger } from "@logpipe/logger";

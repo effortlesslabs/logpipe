@@ -1,10 +1,16 @@
 import { generateApiKey } from "generate-api-key";
+
 import { Resolvers } from "../@generated/resolvers-types";
 import Space from "../database/space";
 import Log from "../database/log";
 import Profile from "../database/profile";
 import sendMagicLink from "../utils/sendMagicLink";
-import { generateMagicLinkToken, withAuthGuard } from "../utils/auth";
+import {
+  generateMagicLinkToken,
+  withAuthGuard,
+  verifyRefreshJwtToken,
+  generateJwtToken,
+} from "../utils/auth";
 
 export const Mutation: Resolvers = {
   Mutation: {
@@ -22,6 +28,22 @@ export const Mutation: Resolvers = {
       const authCode = await generateMagicLinkToken(email);
       await sendMagicLink({ to: email, authCode: authCode });
       return true;
+    },
+    async refreshJWTToken(_, { refreshToken }) {
+      const profileId = await verifyRefreshJwtToken(refreshToken);
+      if (!profileId) {
+        throw new Error("INVALID_REFRESH_TOKEN");
+      }
+      const profile = await Profile.findOne({ _id: profileId });
+      if (!profile) {
+        throw new Error("Profile not found");
+      }
+      const jwtToken = await generateJwtToken(profile._id.toString());
+      return {
+        profile,
+        jwtToken,
+        refreshJwtToken: refreshToken,
+      };
     },
     createSpace: withAuthGuard(async ({ profileId }, { input }) => {
       const newInput = { ...input, profileId };
@@ -62,6 +84,16 @@ export const Mutation: Resolvers = {
         { $push: { apiKeys: apiKey } }
       );
       return apiKey;
+    }),
+
+    updateProfile: withAuthGuard(async ({ profileId }, { input }) => {
+      const profile = await Profile.findOne({ _id: profileId });
+      if (!profile) {
+        throw new Error("Profile not found");
+      }
+      profile.set({ ...input });
+      await profile.save();
+      return profile;
     }),
   },
 };

@@ -11,7 +11,7 @@ const spaceSchema = new mongoose.Schema<Space>(
     },
     schema: {
       type: String,
-      required: true,
+      default: "node",
     },
     description: {
       type: String,

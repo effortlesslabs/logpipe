@@ -1,6 +1,6 @@
 import { useState } from "react";
-import NodeExample from "./examples/nodeexample";
 import Frameworks from "./frameworks";
+import NodeExample from "./examples/node-example";
 
 function Integrations() {
   const [selectedFramework, setSelectedFramework] = useState("");

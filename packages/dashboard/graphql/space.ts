@@ -41,8 +41,8 @@ export const DELETE_SPACE = gql`
 `;
 
 export const UPDATE_SPACE = gql`
-  mutation UpdateSpace($id: ID!, $name: String!, $description: String) {
-    updateSpace(id: $id, name: $name, description: $description) {
+  mutation UpdateSpace($id: ID!, $input: SpaceInput!) {
+    updateSpace(id: $id, input: $input) {
       id
       name
       description

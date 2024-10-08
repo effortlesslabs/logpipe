@@ -1,4 +1,4 @@
-import CreateSpaceForm from "./createspaceform";
+import CreateSpaceForm from "./create-space-form";
 import Integrations from "./integrations";
 
 function CreateSpace() {

@@ -1,4 +1,5 @@
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import SideBarOptions from "./sidebar-options";
 
 function Sidebar() {
   return (
@@ -10,6 +11,7 @@ function Sidebar() {
             Reset
           </Button>
         </div>
+        <SideBarOptions />
       </div>
     </div>
   );

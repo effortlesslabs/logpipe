@@ -13,8 +13,8 @@ export const GET_PROFILE = gql`
 `;
 
 export const UPDATE_PROFILE = gql`
-  mutation UpdateProfile($name: String!, $email: String!) {
-    updateProfile(name: $name, email: $email) {
+  mutation UpdateProfile($input: ProfileInput!) {
+    updateProfile(input: $input) {
       id
       name
       email
