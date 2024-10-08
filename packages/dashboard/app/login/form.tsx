@@ -13,7 +13,7 @@ const loginSchema = Yup.object().shape({
   email: Yup.string().email("Please enter valid email").required("Required"),
 });
 
-function From() {
+function Form() {
   const [completed, setCompleted] = useState(false);
   const [magicLink, { loading, error }] = useMutation(MAGIC_LINK, {
     onCompleted: () => {
@@ -69,4 +69,4 @@ function From() {
   );
 }
 
-export default From;
+export default Form;
