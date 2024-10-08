@@ -19,7 +19,7 @@ function Header() {
             </span>
             <span className="hidden lg:inline-block">Logpipe</span>
           </Link>
-          <Link href={logged ? "/spaces" : "/"} passHref>
+          <Link href="/spaces" passHref>
             <Button variant="link" className="text-muted-foreground">
               Spaces
             </Button>
