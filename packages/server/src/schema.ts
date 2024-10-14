@@ -32,13 +32,20 @@ export const typeDefs = gql`
   }
 
   type ApiKey {
+    id: String
     name: String
     key: String
   }
 
+  type ApiKeys {
+    spaceName: String
+    keyName: String
+    keyId: String
+  }
+
   input SpaceInput {
     name: String!
-    schema: String!
+    schema: String
     description: String
   }
 
@@ -52,12 +59,18 @@ export const typeDefs = gql`
     name: String!
   }
 
+  input ProfileInput {
+    name: String!
+  }
+
   type Query {
     spaces: [Space!]!
     space(id: ID!): Space
     logs(spaceId: ID!): [Log!]!
     validateMagicLink(code: String!): AuthResponse
+    getApiKeys: [ApiKeys!]!
     profile: Profile
+    recentLogs: [Log!]!
   }
 
   type Mutation {
@@ -67,5 +80,8 @@ export const typeDefs = gql`
     createLog(input: LogInput!): Boolean
     magicLink(email: String!): Boolean!
     generateApiKey(input: ApiKeyInput!): ApiKey!
+    refreshJWTToken(refreshToken: String!): AuthResponse
+    deleteApiKey(id: String): Boolean
+    updateProfile(input: ProfileInput!): Profile
   }
 `;

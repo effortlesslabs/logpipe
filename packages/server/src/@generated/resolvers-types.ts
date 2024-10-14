@@ -20,6 +20,7 @@ export type Scalars = {
 
 export type ApiKey = {
   __typename?: 'ApiKey';
+  id?: Maybe<Scalars['String']['output']>;
   key?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
 };
@@ -27,6 +28,13 @@ export type ApiKey = {
 export type ApiKeyInput = {
   name: Scalars['String']['input'];
   spaceId: Scalars['ID']['input'];
+};
+
+export type ApiKeys = {
+  __typename?: 'ApiKeys';
+  keyId?: Maybe<Scalars['String']['output']>;
+  keyName?: Maybe<Scalars['String']['output']>;
+  spaceName?: Maybe<Scalars['String']['output']>;
 };
 
 export type AuthResponse = {
@@ -54,9 +62,12 @@ export type Mutation = {
   __typename?: 'Mutation';
   createLog?: Maybe<Scalars['Boolean']['output']>;
   createSpace: Space;
+  deleteApiKey?: Maybe<Scalars['Boolean']['output']>;
   deleteSpace: Space;
   generateApiKey: ApiKey;
   magicLink: Scalars['Boolean']['output'];
+  refreshJWTToken?: Maybe<AuthResponse>;
+  updateProfile?: Maybe<Profile>;
   updateSpace: Space;
 };
 
@@ -68,6 +79,11 @@ export type MutationCreateLogArgs = {
 
 export type MutationCreateSpaceArgs = {
   input: SpaceInput;
+};
+
+
+export type MutationDeleteApiKeyArgs = {
+  id?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -86,6 +102,16 @@ export type MutationMagicLinkArgs = {
 };
 
 
+export type MutationRefreshJwtTokenArgs = {
+  refreshToken: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateProfileArgs = {
+  input: ProfileInput;
+};
+
+
 export type MutationUpdateSpaceArgs = {
   id: Scalars['ID']['input'];
   input: SpaceInput;
@@ -99,10 +125,16 @@ export type Profile = {
   name: Scalars['String']['output'];
 };
 
+export type ProfileInput = {
+  name: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  getApiKeys: Array<ApiKeys>;
   logs: Array<Log>;
   profile?: Maybe<Profile>;
+  recentLogs: Array<Log>;
   space?: Maybe<Space>;
   spaces: Array<Space>;
   validateMagicLink?: Maybe<AuthResponse>;
@@ -136,7 +168,7 @@ export type Space = {
 export type SpaceInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  schema: Scalars['String']['input'];
+  schema?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -215,12 +247,14 @@ export type ResolversTypes = ResolversObject<{
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   ApiKeyInput: ApiKeyInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  ApiKeys: ResolverTypeWrapper<ApiKeys>;
   AuthResponse: ResolverTypeWrapper<AuthResponse>;
   Log: ResolverTypeWrapper<Log>;
   LogInput: LogInput;
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Profile: ResolverTypeWrapper<Profile>;
+  ProfileInput: ProfileInput;
   Query: ResolverTypeWrapper<{}>;
   Space: ResolverTypeWrapper<Space>;
   SpaceInput: SpaceInput;
@@ -232,20 +266,30 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String']['output'];
   ApiKeyInput: ApiKeyInput;
   ID: Scalars['ID']['output'];
+  ApiKeys: ApiKeys;
   AuthResponse: AuthResponse;
   Log: Log;
   LogInput: LogInput;
   Mutation: {};
   Boolean: Scalars['Boolean']['output'];
   Profile: Profile;
+  ProfileInput: ProfileInput;
   Query: {};
   Space: Space;
   SpaceInput: SpaceInput;
 }>;
 
 export type ApiKeyResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ApiKey'] = ResolversParentTypes['ApiKey']> = ResolversObject<{
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   key?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ApiKeysResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ApiKeys'] = ResolversParentTypes['ApiKeys']> = ResolversObject<{
+  keyId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  keyName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  spaceName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -268,9 +312,12 @@ export type LogResolvers<ContextType = Context, ParentType extends ResolversPare
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createLog?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreateLogArgs, 'input'>>;
   createSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationCreateSpaceArgs, 'input'>>;
+  deleteApiKey?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, Partial<MutationDeleteApiKeyArgs>>;
   deleteSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationDeleteSpaceArgs, 'id'>>;
   generateApiKey?: Resolver<ResolversTypes['ApiKey'], ParentType, ContextType, RequireFields<MutationGenerateApiKeyArgs, 'input'>>;
   magicLink?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationMagicLinkArgs, 'email'>>;
+  refreshJWTToken?: Resolver<Maybe<ResolversTypes['AuthResponse']>, ParentType, ContextType, RequireFields<MutationRefreshJwtTokenArgs, 'refreshToken'>>;
+  updateProfile?: Resolver<Maybe<ResolversTypes['Profile']>, ParentType, ContextType, RequireFields<MutationUpdateProfileArgs, 'input'>>;
   updateSpace?: Resolver<ResolversTypes['Space'], ParentType, ContextType, RequireFields<MutationUpdateSpaceArgs, 'id' | 'input'>>;
 }>;
 
@@ -283,8 +330,10 @@ export type ProfileResolvers<ContextType = Context, ParentType extends Resolvers
 }>;
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  getApiKeys?: Resolver<Array<ResolversTypes['ApiKeys']>, ParentType, ContextType>;
   logs?: Resolver<Array<ResolversTypes['Log']>, ParentType, ContextType, RequireFields<QueryLogsArgs, 'spaceId'>>;
   profile?: Resolver<Maybe<ResolversTypes['Profile']>, ParentType, ContextType>;
+  recentLogs?: Resolver<Array<ResolversTypes['Log']>, ParentType, ContextType>;
   space?: Resolver<Maybe<ResolversTypes['Space']>, ParentType, ContextType, RequireFields<QuerySpaceArgs, 'id'>>;
   spaces?: Resolver<Array<ResolversTypes['Space']>, ParentType, ContextType>;
   validateMagicLink?: Resolver<Maybe<ResolversTypes['AuthResponse']>, ParentType, ContextType, RequireFields<QueryValidateMagicLinkArgs, 'code'>>;
@@ -302,6 +351,7 @@ export type SpaceResolvers<ContextType = Context, ParentType extends ResolversPa
 
 export type Resolvers<ContextType = Context> = ResolversObject<{
   ApiKey?: ApiKeyResolvers<ContextType>;
+  ApiKeys?: ApiKeysResolvers<ContextType>;
   AuthResponse?: AuthResponseResolvers<ContextType>;
   Log?: LogResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;

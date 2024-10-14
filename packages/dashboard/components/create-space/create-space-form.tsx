@@ -1,4 +1,4 @@
-import InputForm from "./inputform";
+import InputForm from "./form/index";
 
 function CreateSpaceForm() {
   return (
